@@ -11,14 +11,26 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 });
 
-// Mobile menu toggle
+// Mobile menu toggle with body lock
 const menuToggle = document.querySelector(".menu-toggle");
 const mobileNav = document.getElementById("mobile-nav");
 if (menuToggle && mobileNav) {
-  menuToggle.addEventListener("click", () => {
+  const toggleMenu = () => {
     const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
-    menuToggle.setAttribute("aria-expanded", !isExpanded);
-    mobileNav.setAttribute("aria-hidden", isExpanded);
+    const newState = !isExpanded;
+    menuToggle.setAttribute("aria-expanded", String(newState));
+    mobileNav.setAttribute("aria-hidden", String(!newState));
+    mobileNav.setAttribute("aria-expanded", String(newState));
+    document.body.classList.toggle("is-locked", newState);
+  };
+  menuToggle.addEventListener("click", toggleMenu);
+  // Close menu when clicking a link (mobile)
+  mobileNav.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      if (menuToggle.getAttribute("aria-expanded") === "true") {
+        toggleMenu();
+      }
+    });
   });
 }
 
