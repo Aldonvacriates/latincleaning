@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LatinCleaning — Cleaning Services in Park City</title>
+  <meta name="description" content="LatinCleaning offers 24/7 emergency and non-emergency cleaning services. One-time, daily, weekly, bi-weekly, or monthly. Call us in English or Spanish."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- animated background -->
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__gradient"></div>
+    <div class="site-bg__sparkles"></div>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="LatinCleaning Home">
+      <img src="./images/latinclean.jpg" alt="LatinCleaning logo with cleaner mascot" class="brand__logo" />
+      <span class="brand__text">LatinCleaning</span>
+    </a>
+    <nav class="nav">
+      <a href="#services">Services</a>
+      <a href="#quote">Get Quote</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#quote" class="btn btn--pill btn--primary">Free Quote</a>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero reveal">
+      <div class="hero__content">
+        <h1><span class="accent">Cleaning</span> Services You Can Trust</h1>
+        <p>24/7 emergency or non-emergency. Available one-time, daily, weekly, bi-weekly, or monthly.</p>
+        <div class="hero__cta">
+          <a href="tel:+18018606299" class="btn btn--primary">Call (801) 860-6299</a>
+          <a href="#quote" class="btn btn--ghost">Get a Free Quote</a>
+        </div>
+        <ul class="hero__badges" aria-label="Contact options">
+          <li>English: <a href="tel:+18018606299">(801) 860-6299</a></li>
+          <li>Español: <a href="tel:+14357141990">(435) 714-1990</a> · <a href="tel:+14353394570">(435) 339-4570</a></li>
+          <li>Email: <a href="mailto:latincleaning6@gmail.com">latincleaning6@gmail.com</a></li>
+          <li>Address: 5447 Bobsled Boulevard, Park City, UT</li>
+          <li>IG: <a href="https://instagram.com/Latin_cleaning0" target="_blank" rel="noopener">@Latin_cleaning0</a></li>
+        </ul>
+      </div>
+      <div class="hero__art" role="img" aria-label="Sparkling clean theme background"></div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="section services reveal">
+      <h2>Our Services</h2>
+      <p class="section__lead">Residential · Commercial · Move-in/Move-out · Deep Cleaning · Post-construction · Vacation Rentals</p>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Emergency Cleaning <span class="chip">24/7</span></h3>
+          <p>Fast response for spills, accidents, and last-minute fixes—any time, any day.</p>
+        </article>
+        <article class="card">
+          <h3>Recurring Plans</h3>
+          <p>Choose a schedule that fits: daily, weekly, bi-weekly, or monthly for consistent sparkle.</p>
+        </article>
+        <article class="card">
+          <h3>One-Time Deep Clean</h3>
+          <p>Top-to-bottom detailing to reset your space and make it shine like new.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Quote / Form -->
+    <section id="quote" class="section section--alt reveal">
+      <div class="form-wrap">
+        <h2>Request a Free Quote</h2>
+        <p>No obligation—tell us about your space and preferred schedule.</p>
+
+        <form id="quoteForm" novalidate>
+          <div class="grid">
+            <label class="field">
+              <span>Name</span>
+              <input type="text" name="name" placeholder="Your full name" required />
+              <small class="error" aria-live="polite"></small>
+            </label>
+
+            <label class="field">
+              <span>Phone</span>
+              <input type="tel" name="phone" placeholder="(###) ###-####" required />
+              <small class="error" aria-live="polite"></small>
+            </label>
+
+            <label class="field">
+              <span>Email</span>
+              <input type="email" name="email" placeholder="you@example.com" required />
+              <small class="error" aria-live="polite"></small>
+            </label>
+
+            <label class="field">
+              <span>Language</span>
+              <select name="language" required>
+                <option value="">Select…</option>
+                <option>English</option>
+                <option>Español</option>
+              </select>
+              <small class="error" aria-live="polite"></small>
+            </label>
+
+            <label class="field">
+              <span>Service Type</span>
+              <select name="service" required>
+                <option value="">Select…</option>
+                <option>Emergency Cleaning</option>
+                <option>Deep Clean</option>
+                <option>Move-in/Move-out</option>
+                <option>Residential</option>
+                <option>Commercial</option>
+                <option>Vacation Rental</option>
+              </select>
+              <small class="error" aria-live="polite"></small>
+            </label>
+
+            <label class="field">
+              <span>Frequency</span>
+              <select name="frequency" required>
+                <option value="">Select…</option>
+                <option>One-time</option>
+                <option>Daily</option>
+                <option>Weekly</option>
+                <option>Bi-weekly</option>
+                <option>Monthly</option>
+              </select>
+              <small class="error" aria-live="polite"></small>
+            </label>
+
+            <label class="field field--full">
+              <span>Address (optional)</span>
+              <input type="text" name="address" placeholder="Street, City" />
+            </label>
+
+            <label class="field field--full">
+              <span>Details</span>
+              <textarea name="details" rows="4" placeholder="Tell us about bedrooms/bathrooms, pets, timing, etc." required></textarea>
+              <small class="error" aria-live="polite"></small>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary ripple">Send Request</button>
+            <p class="muted">Prefer to talk? Call <a href="tel:+18018606299">(801) 860-6299</a> or <a href="tel:+14357141990">(435) 714-1990</a>.</p>
+          </div>
+
+          <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Contact / Footer -->
+    <section id="contact" class="section contact reveal">
+      <div class="contact__grid">
+        <div>
+          <h2>Contact</h2>
+          <ul class="contact__list">
+            <li><strong>English:</strong> <a href="tel:+18018606299">(801) 860-6299</a></li>
+            <li><strong>Español:</strong> <a href="tel:+14357141990">(435) 714-1990</a> · <a href="tel:+14353394570">(435) 339-4570</a></li>
+            <li><strong>Email:</strong> <a href="mailto:latincleaning6@gmail.com">latincleaning6@gmail.com</a></li>
+            <li><strong>Address:</strong> 5447 Bobsled Boulevard, Park City</li>
+            <li><strong>Instagram:</strong> <a href="https://instagram.com/Latin_cleaning0" target="_blank" rel="noopener">@Latin_cleaning0</a></li>
+          </ul>
+        </div>
+        <div class="contact__card">
+          <h3>Why LatinCleaning?</h3>
+          <ul>
+            <li>Trusted, friendly professionals</li>
+            <li>Flexible scheduling to match your lifestyle</li>
+            <li>Transparent communication in English or Spanish</li>
+            <li>Locally owned in Park City</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> LatinCleaning. All rights reserved.</p>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
