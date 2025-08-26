@@ -386,33 +386,17 @@
         <form
           action="https://formspree.io/f/mrbagyvb"
           method="POST"
-          id="quoteForm"
+          id="Landingpage"
           class="form"
           novalidate
         >
           <!-- Honeypot field to reduce spam -->
-          <input
-            type="text"
-            name="_gotcha"
-            tabindex="-1"
-            autocomplete="off"
-            hidden
-          />
-          <input
-            type="hidden"
-            name="_subject"
-            value="New Cleaning Quote Request"
-          />
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" hidden />
+          <input type="hidden" name="_subject" value="New Cleaning Quote Request" />
           <div class="grid quote-grid">
             <label class="field">
               <span>Name</span>
-              <input
-                type="text"
-                name="name"
-                required
-                placeholder="Full name"
-                autocomplete="name"
-              />
+              <input type="text" name="name" required placeholder="Full name" autocomplete="name" />
               <small class="error"></small>
             </label>
             <label class="field">
@@ -471,9 +455,7 @@
               <small class="error"></small>
             </label>
           </div>
-          <button class="btn btn--primary" type="submit" id="quoteSubmit">
-            Request Quote
-          </button>
+          <button class="btn btn--primary" type="submit" id="quoteSubmit">Request Quote</button>
           <div
             id="formStatus"
             class="form-status"

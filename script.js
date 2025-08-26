@@ -53,22 +53,16 @@ const io = new IntersectionObserver(
 );
 document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
-// Quote form validation (simple + progressive enhancement)
+// Quote form validation (simple)
 const form = document.getElementById("quoteForm");
 const statusEl = document.getElementById("formStatus");
-const submitBtn = document.getElementById("quoteSubmit");
 
 function setErr(field, msg) {
-  const wrap = field.parentElement;
-  wrap.querySelector(".error").textContent = msg || "";
-  wrap.classList.toggle("is-error", Boolean(msg));
+  field.parentElement.querySelector(".error").textContent = msg || "";
 }
+
 function clearErr() {
-  form.querySelectorAll(".field").forEach((wrap) => {
-    wrap.classList.remove("is-error");
-    const err = wrap.querySelector(".error");
-    if (err) err.textContent = "";
-  });
+  form.querySelectorAll(".error").forEach((e) => (e.textContent = ""));
 }
 form?.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -98,34 +92,10 @@ form?.addEventListener("submit", (e) => {
     statusEl.textContent = "Please fix the highlighted fields and try again.";
     return;
   }
-  // Disable button & show pending state
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Sending...";
-  statusEl.className = "form-status";
-  statusEl.textContent = "";
-
-  // Submit via fetch to Formspree (graceful fallback if blocked)
-  fetch(form.action, {
-    method: "POST",
-    headers: { Accept: "application/json" },
-    body: new FormData(form),
-  })
-    .then((r) => (r.ok ? r.json() : Promise.reject(r)))
-    .then(() => {
-      statusEl.className = "form-status is-success";
-      statusEl.textContent =
-        "Thanks! Your request was received. We will contact you shortly.";
-      form.reset();
-    })
-    .catch(() => {
-      statusEl.className = "form-status is-error";
-      statusEl.textContent =
-        "There was a problem sending your request. Please try again or call us.";
-    })
-    .finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Request Quote";
-    });
+  statusEl.className = "form-status is-success";
+  statusEl.textContent =
+    "Thanks! Your request was received. We will contact you shortly.";
+  form.reset();
 });
 
 // Before/After slider
