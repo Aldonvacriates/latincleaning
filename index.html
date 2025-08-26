@@ -390,10 +390,29 @@
           class="form"
           novalidate
         >
+          <!-- Honeypot field to reduce spam -->
+          <input
+            type="text"
+            name="_gotcha"
+            tabindex="-1"
+            autocomplete="off"
+            hidden
+          />
+          <input
+            type="hidden"
+            name="_subject"
+            value="New Cleaning Quote Request"
+          />
           <div class="grid quote-grid">
             <label class="field">
               <span>Name</span>
-              <input type="text" name="name" required placeholder="Full name" />
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Full name"
+                autocomplete="name"
+              />
               <small class="error"></small>
             </label>
             <label class="field">
@@ -403,6 +422,7 @@
                 name="email"
                 required
                 placeholder="you@example.com"
+                autocomplete="email"
               />
               <small class="error"></small>
             </label>
@@ -413,6 +433,7 @@
                 name="phone"
                 required
                 placeholder="(###) ###-####"
+                autocomplete="tel"
               />
               <small class="error"></small>
             </label>
@@ -430,12 +451,12 @@
             </label>
             <label class="field">
               <span>Preferred Date</span>
-              <input type="date" name="date" required />
+              <input type="date" name="date" required autocomplete="off" />
               <small class="error"></small>
             </label>
             <label class="field">
               <span>Preferred Time</span>
-              <input type="time" name="time" required />
+              <input type="time" name="time" required autocomplete="off" />
               <small class="error"></small>
             </label>
             <label class="field field--full">
@@ -445,11 +466,14 @@
                 rows="4"
                 placeholder="Bedrooms/bathrooms, pets, access, etc."
                 required
+                autocomplete="off"
               ></textarea>
               <small class="error"></small>
             </label>
           </div>
-          <button class="btn btn--primary" type="submit">Request Quote</button>
+          <button class="btn btn--primary" type="submit" id="quoteSubmit">
+            Request Quote
+          </button>
           <div
             id="formStatus"
             class="form-status"
