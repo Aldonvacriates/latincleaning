@@ -4,10 +4,23 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     const id = a.getAttribute("href");
     if (id.length > 1) {
       e.preventDefault();
-      document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+      document.querySelector(id)?.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   });
 });
+
+// Mobile menu toggle
+const menuToggle = document.querySelector(".menu-toggle");
+const mobileNav = document.getElementById("mobile-nav");
+if (menuToggle && mobileNav) {
+  menuToggle.addEventListener("click", () => {
+    const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.setAttribute("aria-expanded", !isExpanded);
+    mobileNav.setAttribute("aria-hidden", isExpanded);
+  });
+}
 
 // Year
 document.getElementById("year")?.append?.(new Date().getFullYear());
@@ -22,16 +35,20 @@ const io = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.12 }
+  {
+    threshold: 0.12,
+  }
 );
 document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
 // Quote form validation (simple)
 const form = document.getElementById("quoteForm");
 const statusEl = document.getElementById("formStatus");
+
 function setErr(field, msg) {
   field.parentElement.querySelector(".error").textContent = msg || "";
 }
+
 function clearErr() {
   form.querySelectorAll(".error").forEach((e) => (e.textContent = ""));
 }

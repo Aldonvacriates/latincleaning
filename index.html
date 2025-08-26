@@ -1,262 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Latin Cleaning — Professional Cleaning Services</title>
-  <meta name="description" content="Latin Cleaning offers reliable, eco-friendly, and affordable cleaning services for homes and offices. 24/7 options, flexible scheduling, and bilingual support."/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Keep Montserrat as a strong fallback, but rely on system font first -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css" />
-</head>
-<body>
-  <!-- animated hero background -->
-  <div class="site-bg" aria-hidden="true">
-    <div class="site-bg__gradient"></div>
-    <div class="site-bg__sparkles"></div>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Latin Cleaning — Professional Cleaning Services</title>
+    <meta name="description" content="Latin Cleaning offers reliable, eco-friendly, and affordable cleaning services for homes and offices. 24/7 options, flexible scheduling, and bilingual support."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="site-bg" aria-hidden="true">
+      <div class="site-bg__gradient"></div>
+      <div class="site-bg__sparkles"></div>
+    </div>
 
-  <!-- Header -->
-  <header class="site-header">
-    <a href="#top" class="brand" aria-label="Latin Cleaning">
-      <img src="./images/latinclean.jpg" alt="Latin Cleaning logo" class="brand__logo" />
-      <span class="brand__text">Latin Cleaning</span>
-    </a>
-    <nav class="nav">
-      <a href="#services">Services</a>
-      <a href="#why">Why Us</a>
-      <a href="#testimonials">Testimonials</a>
-      <a href="#about">About</a>
-      <a href="#quote">Pricing & Quote</a>
+    <header class="site-header">
+      <a href="#top" class="brand" aria-label="Latin Cleaning">
+        <img src="./images/latinclean.jpg" alt="Latin Cleaning logo" class="brand__logo"/>
+        <span class="brand__text">Latin Cleaning</span>
+      </a>
+
+      <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <nav class="nav">
+        <a href="#services">Services</a>
+        <a href="#why">Why Us</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#about">About</a>
+        <a href="#quote">Pricing & Quote</a>
+      </nav>
+
+      <a class="btn btn--cta header-cta" href="#quote">Book Now</a>
+    </header>
+
+    <nav id="mobile-nav" class="mobile-nav" aria-hidden="true">
+        <a href="#services">Services</a>
+        <a href="#why">Why Us</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#about">About</a>
+        <a href="#quote">Pricing & Quote</a>
     </nav>
-    <a class="btn btn--cta header-cta" href="#quote">Book Now</a>
-  </header>
 
-  <main id="top">
-    <!-- Hero -->
-    <section class="hero reveal">
-      <div class="hero__content">
-        <h1>Professional Cleaning Services for <span class="highlight">Homes & Offices</span></h1>
-        <p class="subhead">Reliable, eco-friendly, and affordable cleaning you can trust.</p>
-        <div class="hero__cta">
-          <a href="#quote" class="btn btn--cta">Get a Free Quote</a>
-          <a href="tel:+18018606299" class="btn btn--ghost">Call (801) 860-6299</a>
-        </div>
-        <ul class="hero__details">
-          <li>24/7 Emergency or scheduled</li>
-          <li>Bilingual support (English & Español)</li>
-          <li>One-time, weekly, bi-weekly, or monthly!</li>
-        </ul>
-      </div>
-
-      <!-- Hero image (framed) -->
-      <div class="hero__art">
-        <img src="images\cover hero.png" alt="Latin Cleaning services hero" />
-      </div>
-    </section>
-
-    <!-- Services -->
-    <section id="services" class="section reveal">
-      <h2 class="section__title">Our Services</h2>
-      <p class="section__lead">From homes to offices and vacation rentals—we make every space shine.</p>
-      <div class="grid grid--5">
-        <article class="card service">
-          <div class="icon icon--home" aria-hidden="true"></div>
-          <h3>Residential Cleaning</h3>
-          <p>Regular or deep cleans to keep your home fresh and healthy.</p>
-        </article>
-        <article class="card service">
-          <div class="icon icon--office" aria-hidden="true"></div>
-          <h3>Commercial Cleaning</h3>
-          <p>Reliable service for offices, shops, and shared workspaces.</p>
-        </article>
-        <article class="card service">
-          <div class="icon icon--sparkle" aria-hidden="true"></div>
-          <h3>Deep Cleaning</h3>
-          <p>Top-to-bottom detailing for kitchens, bathrooms, and more.</p>
-        </article>
-        <article class="card service">
-          <div class="icon icon--move" aria-hidden="true"></div>
-          <h3>Move-in/Move-out</h3>
-          <p>Perfect finish for new tenants or smooth move-outs.</p>
-        </article>
-        <article class="card service">
-          <div class="icon icon--sofa" aria-hidden="true"></div>
-          <h3>Carpet & Upholstery</h3>
-          <p>Refresh fabrics and remove stubborn stains and odors.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Why Choose Us -->
-    <section id="why" class="section section--tint reveal">
-      <h2 class="section__title">Why Choose Latin Cleaning?</h2>
-      <div class="grid grid--4">
-        <article class="card feature">
-          <div class="miniicon mi--shield" aria-hidden="true"></div>
-          <h3>Background-Checked Staff</h3>
-          <p>Trained professionals you can trust in your space.</p>
-        </article>
-        <article class="card feature">
-          <div class="miniicon mi--leaf" aria-hidden="true"></div>
-          <h3>Eco-friendly Products</h3>
-          <p>We use safe, effective products for your family and pets.</p>
-        </article>
-        <article class="card feature">
-          <div class="miniicon mi--calendar" aria-hidden="true"></div>
-          <h3>Flexible Scheduling</h3>
-          <p>Book one-time or recurring plans to fit your lifestyle.</p>
-        </article>
-        <article class="card feature">
-          <div class="miniicon mi--star" aria-hidden="true"></div>
-          <h3>Satisfaction Guarantee</h3>
-          <p>If something's not perfect, we’ll make it right.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section id="testimonials" class="section reveal">
-      <h2 class="section__title">What Our Customers Say</h2>
-      <div class="grid grid--3">
-        <figure class="card testimonial">
-          <blockquote>
-            “They left our office spotless before a big client visit. Super reliable!”
-          </blockquote>
-          <div class="stars" aria-label="5 star rating">★★★★★</div>
-          <figcaption>— Morgan R.</figcaption>
-        </figure>
-        <figure class="card testimonial">
-          <blockquote>
-            “Best deep clean we’ve had. Friendly team and great communication.”
-          </blockquote>
-          <div class="stars">★★★★★</div>
-          <figcaption>— Alex G.</figcaption>
-        </figure>
-        <figure class="card testimonial">
-          <blockquote>
-            “Love that they use eco-friendly products. House feels so fresh.”
-          </blockquote>
-          <div class="stars">★★★★★</div>
-          <figcaption>— Priya K.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- Before / After Slider (Desktop) -->
-    <section class="section reveal beforeafter">
-      <h2 class="section__title">See the Difference</h2>
-      <div class="ba" role="region" aria-label="Before and After slider">
-        <img src="./images/before.svg" alt="Before cleaning" class="ba__img ba__img--base"/>
-        <div class="ba__overlay" style="width:50%">
-          <img src="./images/after.svg" alt="After cleaning" class="ba__img"/>
-        </div>
-        <input type="range" class="ba__range" min="0" max="100" value="50" aria-label="Slide to compare before and after"/>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="section section--tint reveal">
-      <div class="about">
-        <div class="about__text">
-          <h2 class="section__title">About Latin Cleaning</h2>
-          <p>We’re a Park City team proud to deliver high-quality cleaning with a friendly, bilingual crew. From emergency calls to routine maintenance, we’re here to make your life easier and your spaces shine.</p>
-          <ul class="about__list">
-            <li>English: (801) 860-6299</li>
-            <li>Español: (435) 714-1990 · (435) 339-4570</li>
-            <li>Email: latincleaning6@gmail.com</li>
+    <main id="top">
+      <section class="hero reveal">
+        <div class="hero__content">
+          <h1>Professional Cleaning Services for <span class="highlight">Homes & Offices</span></h1>
+          <p class="subhead">Reliable, eco-friendly, and affordable cleaning you can trust.</p>
+          <div class="hero__cta">
+            <a href="#quote" class="btn btn--cta">Get a Free Quote</a>
+            <a href="tel:+18018606299" class="btn btn--ghost">Call (801) 860-6299</a>
+          </div>
+          <ul class="hero__details">
+            <li>24/7 Emergency or scheduled</li>
+            <li>Bilingual support (English & Español)</li>
+            <li>One-time, weekly, bi-weekly, or monthly!</li>
           </ul>
         </div>
-        <div class="about__media">
-          <img src="./images/latinclean.jpg" alt="Latin Cleaning team" />
+        <div class="hero__art">
+          <img src="images\cover hero.png" alt="Latin Cleaning services hero" />
+        </div>
+      </section>
+
+      <section id="services" class="section reveal">
+        <h2 class="section__title">Our Services</h2>
+        <p class="section__lead">From homes to offices and vacation rentals—we make every space shine.</p>
+        <div class="grid services-grid">
+          <article class="card service">
+            <div class="icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <h3>Residential Cleaning</h3>
+            <p>Regular or deep cleans to keep your home fresh and healthy.</p>
+          </article>
+          <article class="card service">
+            <div class="icon-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            <h3>Commercial Cleaning</h3>
+            <p>Reliable service for offices, shops, and shared workspaces.</p>
+          </article>
+          <article class="card service">
+            <div class="icon-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 12.5c-.5 2.5-2.34 4.54-5.26 5.25L12 21l-4.24-3.25C4.84 17.04 3 15.01 2.5 12.5 2 10.5 3.5 9 5.5 8.5 7.5 8 9 8 11 9l1-1 1 1c2-1 3.5-1.5 5.5-.5s2.5 2 2 4z"></path></svg>
+            </div>
+            <h3>Deep Cleaning</h3>
+            <p>Top-to-bottom detailing for kitchens, bathrooms, and more.</p>
+          </article>
+          <article class="card service">
+            <div class="icon-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
+            </div>
+            <h3>Move-in/Move-out</h3>
+            <p>Perfect finish for new tenants or smooth move-outs.</p>
+          </article>
+          <article class="card service">
+            <div class="icon-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10v0a10 10 0 0 0-10-10z"></path><path d="M12 8l4 4-4 4"></path><path d="M12 12l-4 4"></path><path d="M12 8l-4 4"></path><path d="M12 16l4-4"></path></svg>
+            </div>
+            <h3>Carpet & Upholstery</h3>
+            <p>Refresh fabrics and remove stubborn stains and odors.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="why" class="section section--tint reveal">
+        <h2 class="section__title">Why Choose Latin Cleaning?</h2>
+        <div class="grid features-grid">
+          <article class="card feature">
+            <div class="icon-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"></path><path d="M12 8v4l3 3"></path></svg>
+            </div>
+            <h3>Background-Checked Staff</h3>
+            <p>Trained professionals you can trust in your space.</p>
+          </article>
+          <article class="card feature">
+            <div class="icon-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.35L22 7.65V19z"></path><line x1="16" y1="3" x2="16" y2="9"></line><line x1="16" y1="8" x2="22" y2="8"></line><line x1="10" y1="12" x2="10" y2="18"></line></svg>
+            </div>
+            <h3>Eco-friendly Products</h3>
+            <p>We use safe, effective products for your family and pets.</p>
+          </article>
+          <article class="card feature">
+            <div class="icon-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <h3>Flexible Scheduling</h3>
+            <p>Book one-time or recurring plans to fit your lifestyle.</p>
+          </article>
+          <article class="card feature">
+            <div class="icon-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <h3>Satisfaction Guarantee</h3>
+            <p>If something's not perfect, we’ll make it right.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="testimonials" class="section reveal">
+        <h2 class="section__title">What Our Customers Say</h2>
+        <div class="grid testimonials-grid">
+          <figure class="card testimonial">
+            <blockquote>
+              “They left our office spotless before a big client visit. Super reliable!”
+            </blockquote>
+            <div class="stars" aria-label="5 star rating">★★★★★</div>
+            <figcaption>— Morgan R.</figcaption>
+          </figure>
+          <figure class="card testimonial">
+            <blockquote>
+              “Best deep clean we’ve had. Friendly team and great communication.”
+            </blockquote>
+            <div class="stars">★★★★★</div>
+            <figcaption>— Alex G.</figcaption>
+          </figure>
+          <figure class="card testimonial">
+            <blockquote>
+              “Love that they use eco-friendly products. House feels so fresh.”
+            </blockquote>
+            <div class="stars">★★★★★</div>
+            <figcaption>— Priya K.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section reveal beforeafter">
+        <h2 class="section__title">See the Difference</h2>
+        <div class="ba" role="region" aria-label="Before and After slider">
+          <img src="./images/before.svg" alt="Before cleaning" class="ba__img ba__img--base" />
+          <div class="ba__overlay" style="width:50%">
+            <img src="./images/after.svg" alt="After cleaning" class="ba__img" />
+          </div>
+          <input type="range" class="ba__range" min="0" max="100" value="50" aria-label="Slide to compare before and after" />
+        </div>
+      </section>
+
+      <section id="about" class="section section--tint reveal">
+        <div class="about">
+          <div class="about__text">
+            <h2 class="section__title">About Latin Cleaning</h2>
+            <p>We’re a Park City team proud to deliver high-quality cleaning with a friendly, bilingual crew. From emergency calls to routine maintenance, we’re here to make your life easier and your spaces shine.</p>
+            <ul class="about__list">
+              <li>English: (801) 860-6299</li>
+              <li>Español: (435) 714-1990 · (435) 339-4570</li>
+              <li>Email: latincleaning6@gmail.com</li>
+            </ul>
+          </div>
+          <div class="about__media">
+            <img src="./images/latinclean.jpg" alt="Latin Cleaning team" />
+          </div>
+        </div>
+      </section>
+
+      <section id="quote" class="section reveal">
+        <h2 class="section__title">Get Your Free Quote</h2>
+        <p class="section__lead">Tell us about your space and preferred schedule.</p>
+        <form id="quoteForm" class="form" novalidate>
+          <div class="grid quote-grid">
+            <label class="field">
+              <span>Name</span>
+              <input type="text" name="name" required placeholder="Full name" />
+              <small class="error"></small>
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input type="email" name="email" required placeholder="you@example.com" />
+              <small class="error"></small>
+            </label>
+            <label class="field">
+              <span>Phone</span>
+              <input type="tel" name="phone" required placeholder="(###) ###-####" />
+              <small class="error"></small>
+            </label>
+            <label class="field">
+              <span>Type of Cleaning</span>
+              <select name="type" required>
+                <option value="">Select…</option>
+                <option>Residential</option>
+                <option>Commercial</option>
+                <option>Deep Cleaning</option>
+                <option>Move-in/Move-out</option>
+                <option>Carpet & Upholstery</option>
+              </select>
+              <small class="error"></small>
+            </label>
+            <label class="field">
+              <span>Preferred Date</span>
+              <input type="date" name="date" required />
+              <small class="error"></small>
+            </label>
+            <label class="field">
+              <span>Preferred Time</span>
+              <input type="time" name="time" required />
+              <small class="error"></small>
+            </label>
+            <label class="field field--full">
+              <span>Message</span>
+              <textarea name="message" rows="4" placeholder="Bedrooms/bathrooms, pets, access, etc." required></textarea>
+              <small class="error"></small>
+            </label>
+          </div>
+          <button class="btn btn--primary" type="submit">Request Quote</button>
+          <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer__grid">
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+18018606299">Phone: (801) 860-6299</a></li>
+            <li><a href="mailto:latincleaning6@gmail.com">Email: latincleaning6@gmail.com</a></li>
+            <li><a href="https://wa.me/18018606299" target="_blank" rel="noopener">WhatsApp: +1 801-860-6299</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="https://instagram.com/Latin_cleaning0" target="_blank" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+        <div class="footer__brand">
+          <img src="./images/latinclean.jpg" alt="Latin Cleaning logo small" />
+          <p>© <span id="year"></span> Latin Cleaning. All rights reserved.</p>
         </div>
       </div>
-    </section>
+    </footer>
 
-    <!-- Quote / Pricing -->
-    <section id="quote" class="section reveal">
-      <h2 class="section__title">Get Your Free Quote</h2>
-      <p class="section__lead">Tell us about your space and preferred schedule.</p>
-      <form id="quoteForm" class="form" novalidate>
-        <div class="grid grid--2">
-          <label class="field">
-            <span>Name</span>
-            <input type="text" name="name" required placeholder="Full name"/>
-            <small class="error"></small>
-          </label>
-          <label class="field">
-            <span>Email</span>
-            <input type="email" name="email" required placeholder="you@example.com"/>
-            <small class="error"></small>
-          </label>
-          <label class="field">
-            <span>Phone</span>
-            <input type="tel" name="phone" required placeholder="(###) ###-####"/>
-            <small class="error"></small>
-          </label>
-          <label class="field">
-            <span>Type of Cleaning</span>
-            <select name="type" required>
-              <option value="">Select…</option>
-              <option>Residential</option>
-              <option>Commercial</option>
-              <option>Deep Cleaning</option>
-              <option>Move-in/Move-out</option>
-              <option>Carpet & Upholstery</option>
-            </select>
-            <small class="error"></small>
-          </label>
-          <label class="field">
-            <span>Preferred Date</span>
-            <input type="date" name="date" required/>
-            <small class="error"></small>
-          </label>
-          <label class="field">
-            <span>Preferred Time</span>
-            <input type="time" name="time" required/>
-            <small class="error"></small>
-          </label>
-          <label class="field field--full">
-            <span>Message</span>
-            <textarea name="message" rows="4" placeholder="Bedrooms/bathrooms, pets, access, etc." required></textarea>
-            <small class="error"></small>
-          </label>
-        </div>
-        <button class="btn btn--primary" type="submit">Request Quote</button>
-        <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
-      </form>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer__grid">
-      <div>
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="tel:+18018606299">Phone: (801) 860-6299</a></li>
-          <li><a href="mailto:latincleaning6@gmail.com">Email: latincleaning6@gmail.com</a></li>
-          <li><a href="https://wa.me/18018606299" target="_blank" rel="noopener">WhatsApp: +1 801-860-6299</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="https://instagram.com/Latin_cleaning0" target="_blank" rel="noopener">Instagram</a></li>
-        </ul>
-      </div>
-      <div class="footer__brand">
-        <img src="./images/latinclean.jpg" alt="Latin Cleaning logo small">
-        <p>© <span id="year"></span> Latin Cleaning. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <script src="./script.js"></script>
-</body>
+    <script src="./script.js"></script>
+  </body>
 </html>
