@@ -352,6 +352,16 @@ body.is-locked {
   margin: auto;
 }
 
+/* Offset anchor scroll for sticky header */
+section[id] {
+  scroll-margin-top: 90px;
+}
+@media (max-width: 600px) {
+  section[id] {
+    scroll-margin-top: 76px;
+  }
+}
+
 .section--tint {
   background: rgba(168, 205, 231, 0.2);
   border-radius: 20px;
@@ -598,12 +608,12 @@ body.is-locked {
 .field.is-error select,
 .field.is-error textarea {
   border-color: #d32f2f;
-  box-shadow: 0 0 0 3px rgba(211,47,47,.18);
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.18);
 }
 
 /* Submit button feedback */
 #quoteSubmit[disabled] {
-  opacity: .65;
+  opacity: 0.65;
   cursor: not-allowed;
 }
 

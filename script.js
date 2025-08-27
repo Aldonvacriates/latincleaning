@@ -15,21 +15,31 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 const menuToggle = document.querySelector(".menu-toggle");
 const mobileNav = document.getElementById("mobile-nav");
 if (menuToggle && mobileNav) {
-  const toggleMenu = () => {
+  const toggleMenu = (forceState) => {
     const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
-    const newState = !isExpanded;
+    const newState = typeof forceState === "boolean" ? forceState : !isExpanded;
+    if (newState === isExpanded) return;
     menuToggle.setAttribute("aria-expanded", String(newState));
     mobileNav.setAttribute("aria-hidden", String(!newState));
     mobileNav.setAttribute("aria-expanded", String(newState));
     document.body.classList.toggle("is-locked", newState);
   };
-  menuToggle.addEventListener("click", toggleMenu);
-  // Close menu when clicking a link (mobile)
+  menuToggle.addEventListener("click", () => toggleMenu());
+  // Override smooth scroll for mobile nav so we close first, THEN scroll
   mobileNav.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", () => {
-      if (menuToggle.getAttribute("aria-expanded") === "true") {
-        toggleMenu();
-      }
+    link.addEventListener("click", (e) => {
+      const targetId = link.getAttribute("href");
+      if (!targetId || targetId.length < 2) return;
+      e.preventDefault();
+      // Close menu first
+      toggleMenu(false);
+      // Allow layout to reflow after body unlock
+      setTimeout(() => {
+        document.querySelector(targetId)?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 40);
     });
   });
 }
