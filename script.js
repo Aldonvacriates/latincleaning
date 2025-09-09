@@ -114,3 +114,34 @@ const overlay = document.querySelector(".ba__overlay");
 range?.addEventListener("input", () => {
   overlay.style.width = range.value + "%";
 });
+
+// Cookie consent
+(function cookieConsent() {
+  const banner = document.getElementById("cookie-banner");
+  if (!banner) return;
+  const ACCEPTED = "cookie_consent_v1";
+  const hasChoice = localStorage.getItem(ACCEPTED);
+  if (!hasChoice) {
+    banner.hidden = false;
+  }
+  const acceptBtn = document.getElementById("cookie-accept");
+  const declineBtn = document.getElementById("cookie-decline");
+  const hide = () => {
+    banner.hidden = true;
+  };
+  acceptBtn?.addEventListener("click", () => {
+    localStorage.setItem(ACCEPTED, "accepted");
+    hide();
+  });
+  declineBtn?.addEventListener("click", () => {
+    localStorage.setItem(ACCEPTED, "declined");
+    hide();
+  });
+  // ESC to close (treat as decline)
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !banner.hidden) {
+      localStorage.setItem(ACCEPTED, "declined");
+      hide();
+    }
+  });
+})();
