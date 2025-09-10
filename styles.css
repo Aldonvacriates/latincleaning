@@ -926,3 +926,101 @@ section[id] {
   object-fit: cover;
   aspect-ratio: 3 / 2;
 }
+
+/* ===== Full-bleed Pink "Movie Night" Hero (light) ===== */
+.hero--bleed{
+  /* full-bleed across viewport even inside centered layouts */
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  min-height: 90vh;                /* almost full screen height */
+  border-radius: 0;
+  padding: clamp(1rem, 4vw, 3rem);
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  overflow: clip;
+  margin-bottom: clamp(1.5rem, 5vw, 3rem);
+}
+
+.hero--rose .hero__content{
+  position: relative;
+  z-index: 2;
+  color: #0b1220;                  /* stronger black-ish */
+  max-width: 72ch;
+}
+
+/* Background image */
+.hero__bg{ position:absolute; inset:0; z-index:0; }
+.hero__bg img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transform: scale(1.04);
+  filter: saturate(1.06) contrast(1.02);
+  animation: roseKenBurns 22s ease-out both;
+  will-change: transform;
+}
+@keyframes roseKenBurns{
+  0%   { transform: scale(1.08) translateY(0); }
+  100% { transform: scale(1.02) translateY(-1.2%); }
+}
+
+/* Light pink overlay (not dark) */
+.hero__overlay{
+  position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(90deg,
+      rgba(255, 228, 238, .92) 0%,
+      rgba(255, 228, 238, .70) 30%,
+      rgba(255, 246, 251, .38) 60%,
+      rgba(255, 255, 255, .18) 100%),
+    radial-gradient(1200px 700px at 18% 68%,
+      rgba(255, 192, 203, .28) 0%,
+      rgba(255, 192, 203, .10) 60%,
+      rgba(255, 192, 203, 0) 100%);
+}
+
+/* Legibility panel behind text */
+.hero__panel{
+  background: rgba(255,255,255,.60);
+  border: 1px solid rgba(2,6,23,.08);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 30px rgba(2,6,23,.10);
+  padding: clamp(14px, 2.4vw, 22px) clamp(16px, 3vw, 28px);
+}
+
+/* Headline pop */
+.hero--rose h1{
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 0 rgba(255,255,255,.7); /* subtle light edge so dark text stands out */
+}
+
+/* New highlight color (sunrise peach->lemon) */
+.highlight--sunrise{
+  background: linear-gradient(90deg, #ffc7d9, #ffe59a, #ffc7d9);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  padding: 0 .28em;
+  border-radius: .45em;
+  background-size: 200% 100%;
+  animation: sunriseShift 12s ease-in-out infinite;
+}
+@keyframes sunriseShift{
+  0% { background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+
+/* Buttons over light overlay */
+.hero--rose .btn--ghost{
+  background: rgba(255,255,255,.92);
+  border-color: rgba(2,6,23,.10);
+  color: #0b1220;
+}
+.hero--rose .btn--ghost:hover{ background: #fff; }
+.hero--rose .btn--cta{ box-shadow: 0 12px 28px rgba(255,105,180,.28); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .hero__bg img, .highlight--sunrise{ animation: none !important; transform: none !important; }
+}
