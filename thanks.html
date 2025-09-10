@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You — Latin Cleaning</title>
+  <meta name="description" content="Thanks for contacting Latin Cleaning. We’ll get back to you shortly." />
+  <!-- Use the same favicon + fonts + styles as the main site -->
+  <link rel="icon" href="/Favicon.png" type="image/png" />
+  <link rel="alternate icon" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    /* Lightweight, page-specific tweaks that play nicely with your existing CSS */
+    .thankyou {
+      min-height: 80svh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: clamp(1.5rem, 3vw, 3rem);
+    }
+    .thankyou__card {
+      max-width: 720px;
+      background: var(--card, #ffffff);
+      border-radius: 16px;
+      padding: clamp(1.5rem, 3vw, 2.25rem);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    .thankyou__logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .thankyou h1 {
+      font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+      margin: 0.25rem 0 0.5rem;
+    }
+    .thankyou p {
+      color: #475569;
+      margin: 0.25rem 0 1rem;
+      line-height: 1.6;
+    }
+    .thankyou .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .btn { /* fallback in case styles.css isn't loaded for some reason */
+      display: inline-block;
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .btn--primary {
+      background: #1e293b;
+      color: #fff;
+    }
+    .btn--ghost {
+      border: 2px solid #1e293b;
+      color: #1e293b;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <!-- Reuse your background styles if desired -->
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__gradient"></div>
+    <div class="site-bg__sparkles"></div>
+  </div>
+
+  <main class="thankyou" id="top">
+    <section class="thankyou__card" role="status" aria-live="polite">
+      <!-- Show the favicon image in the content -->
+      <img src="./Favicon.png" alt="Latin Cleaning icon" class="thankyou__logo" />
+
+      <h1>Thank you! 🎉</h1>
+      <p>We’ve received your request and will get back to you shortly.</p>
+      <p>If this is urgent, call us at <a href="tel:+13852385172">(385) 238-5172</a> or chat on WhatsApp.</p>
+
+      <div class="actions">
+        <a href="./index.html" class="btn btn--primary" aria-label="Back to the Latin Cleaning home page">Back to Home</a>
+        <a href="https://wa.me/13852385172?text=Hello%20Latin%20Cleaning!%20Following%20up%20on%20my%20quote."
+           class="btn btn--ghost" target="_blank" rel="noopener"
+           aria-label="Open WhatsApp chat with Latin Cleaning">Message on WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" aria-hidden="true">
+    <div class="footer__brand" style="text-align:center; padding:1.25rem 0;">
+      <p>© <span id="year"></span> Latin Cleaning</p>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+
+    // Optional: auto-redirect back home after a few seconds
+    // setTimeout(() => { window.location.href = './index.html'; }, 10000);
+  </script>
+</body>
+</html>
