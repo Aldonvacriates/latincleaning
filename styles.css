@@ -1021,6 +1021,6 @@ section[id] {
 .hero--rose .btn--cta{ box-shadow: 0 12px 28px rgba(255,105,180,.28); }
 
 /* Reduced motion */
-@media (prefers-reduced-motion: reduce){
+/* @media (prefers-reduced-motion: reduce){
   .hero__bg img, .highlight--sunrise{ animation: none !important; transform: none !important; }
-}
+} */
