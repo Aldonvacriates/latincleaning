@@ -47,21 +47,26 @@ if (menuToggle && mobileNav) {
 // Year
 document.getElementById("year")?.append?.(new Date().getFullYear());
 
-// Reveal on scroll
-const io = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting) {
-        en.target.classList.add("is-in");
-        io.unobserve(en.target);
-      }
-    });
-  },
-  {
-    threshold: 0.12,
-  }
-);
-document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+// Reveal on scroll - gentle fade-in with reduced-motion fallback
+(() => {
+  const prefersReduced = window.matchMedia?.(
+    "(prefers-reduced-motion: reduce)"
+  )?.matches;
+  if (prefersReduced) return; // skip reveals entirely
+  if (!("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.classList.add("is-in");
+          io.unobserve(en.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+})();
 
 // Quote form validation (simple)
 const form = document.getElementById("quoteForm");
@@ -184,10 +189,4 @@ range?.addEventListener("input", () => {
   }
 })();
 
-// After parsing saved choice:
-try {
-  const parsed = saved ? JSON.parse(saved) : null;
-  if (parsed?.choice === 'accepted') {
-    // loadAnalytics(); // your function that injects analytics script
-  }
-} catch {}
+// Analytics hook can be added here if consent is accepted (left intentionally blank for static site)
