@@ -910,3 +910,19 @@ section[id] {
 }
 
 
+/* --- Single photo block (replaces slider) --- */
+.beforeafter .solo-photo{
+  max-width: 1040px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(2,6,23,.18);
+  background: #e2e8f0;
+}
+.beforeafter .solo-photo img{
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 3 / 2;
+}
