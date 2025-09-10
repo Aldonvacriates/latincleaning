@@ -298,6 +298,8 @@ body.is-locked {
   }
 }
 
+
+
 .highlight {
   background: linear-gradient(
     120deg,
@@ -906,3 +908,5 @@ section[id] {
 @media (min-width: 900px) {
   .services-grid { gap: 1.25rem; }
 }
+
+
