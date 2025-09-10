@@ -1090,3 +1090,21 @@ section[id] {
     transition: none !important;
   }
 }
+
+/* Extra-small screens: tighten paddings/typography */
+@media (max-width: 380px) {
+  .hero { padding: 1.6rem 1rem; }
+  .hero__content h1 { font-size: clamp(24px, 7.5vw, 34px); }
+  .subhead { font-size: 0.95rem; }
+  .hero__cta { gap: 0.6rem; }
+  .btn { padding: 0.65rem 0.9rem; font-size: 0.88rem; }
+  .section { padding: 2.4rem 1rem; }
+}
+
+/* Make sure sticky header doesn't cause jumps on iOS */
+.site-header { will-change: transform; }
+
+/* Gentle hero motion (auto-disabled in prefers-reduced-motion) */
+.hero__bg img {
+  animation: roseKenBurns 24s ease-out both;
+}
