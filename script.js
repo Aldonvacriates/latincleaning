@@ -11,7 +11,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 });
 
-// Mobile menu toggle with body lock
+// Mobile menu toggle with improved body scroll lock that preserves page position
 const menuToggle = document.querySelector(".menu-toggle");
 const mobileNav = document.getElementById("mobile-nav");
 if (menuToggle && mobileNav) {
@@ -19,24 +19,44 @@ if (menuToggle && mobileNav) {
     const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
     const newState = typeof forceState === "boolean" ? forceState : !isExpanded;
     if (newState === isExpanded) return;
+
+    // Opening: store scroll position and fix body in place (preserve visual position)
+    if (newState) {
+      const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      document.body.dataset.scrollY = String(scrollY);
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.classList.add("is-locked");
+    } else {
+      // Closing: remove fixed positioning and restore previous scroll position
+      document.body.classList.remove("is-locked");
+      const prev = parseInt(document.body.dataset.scrollY || "0", 10);
+      document.body.style.position = "";
+      document.body.style.top = "";
+      // restore scroll synchronously
+      window.scrollTo(0, prev);
+      delete document.body.dataset.scrollY;
+    }
+
+    // update accessible attributes and mobile sheet state
     menuToggle.setAttribute("aria-expanded", String(newState));
     mobileNav.setAttribute("aria-hidden", String(!newState));
     mobileNav.setAttribute("aria-expanded", String(newState));
-    document.body.classList.toggle("is-locked", newState);
   };
   menuToggle.addEventListener("click", () => toggleMenu());
-  // Override smooth scroll for mobile nav so we close first, THEN scroll
+
+  // Close menu first, then instant jump (no animation)
   mobileNav.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (e) => {
       const targetId = link.getAttribute("href");
       if (!targetId || targetId.length < 2) return;
       e.preventDefault();
-      // Close menu first
+      // Close menu and then jump — since we restore scroll immediately, a short timeout
+      // ensures the DOM has updated before we jump to the target.
       toggleMenu(false);
-      // Allow layout to reflow after body unlock
       setTimeout(() => {
         document.querySelector(targetId)?.scrollIntoView({
-          behavior: "smooth",
+          behavior: "auto",
           block: "start",
         });
       }, 40);
