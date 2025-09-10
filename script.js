@@ -116,32 +116,78 @@ range?.addEventListener("input", () => {
 });
 
 // Cookie consent
-(function cookieConsent() {
+(() => {
+  const STORAGE_KEY = "lc_cookie_consent_v1";
   const banner = document.getElementById("cookie-banner");
   if (!banner) return;
-  const ACCEPTED = "cookie_consent_v1";
-  const hasChoice = localStorage.getItem(ACCEPTED);
-  if (!hasChoice) {
-    banner.hidden = false;
-  }
+
   const acceptBtn = document.getElementById("cookie-accept");
   const declineBtn = document.getElementById("cookie-decline");
-  const hide = () => {
+  let lastActive = null;
+
+  const saved = localStorage.getItem(STORAGE_KEY);
+
+  // Helpers
+  function setCookie(name, value, days = 365) {
+    const maxAge = days * 24 * 60 * 60;
+    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(
+      value
+    )}; Max-Age=${maxAge}; Path=/; SameSite=Lax`;
+  }
+
+  function saveChoice(choice) {
+    const payload = { choice, ts: Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    setCookie("lc_cookie_consent", choice);
+  }
+
+  function openBanner() {
+    // Don’t show if already decided
+    if (saved) return;
+
+    lastActive = document.activeElement;
+    banner.hidden = false;
+    banner.setAttribute("aria-hidden", "false");
+
+    // Move focus to Accept for keyboard users after paint
+    requestAnimationFrame(() => {
+      acceptBtn?.focus({ preventScroll: true });
+    });
+
+    // Trap Escape to close as decline
+    document.addEventListener("keydown", onEsc);
+  }
+
+  function closeBanner(choice) {
+    saveChoice(choice);
     banner.hidden = true;
-  };
-  acceptBtn?.addEventListener("click", () => {
-    localStorage.setItem(ACCEPTED, "accepted");
-    hide();
-  });
-  declineBtn?.addEventListener("click", () => {
-    localStorage.setItem(ACCEPTED, "declined");
-    hide();
-  });
-  // ESC to close (treat as decline)
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !banner.hidden) {
-      localStorage.setItem(ACCEPTED, "declined");
-      hide();
+    banner.setAttribute("aria-hidden", "true");
+    document.removeEventListener("keydown", onEsc);
+    if (lastActive && lastActive instanceof HTMLElement) {
+      lastActive.focus({ preventScroll: true });
     }
-  });
+  }
+
+  function onEsc(e) {
+    if (e.key === "Escape" && !banner.hidden) {
+      closeBanner("declined");
+    }
+  }
+
+  // Wire buttons
+  acceptBtn?.addEventListener("click", () => closeBanner("accepted"));
+  declineBtn?.addEventListener("click", () => closeBanner("declined"));
+
+  // Show after a short delay so it doesn’t clash with initial animations
+  if (!saved) {
+    setTimeout(openBanner, 600);
+  }
 })();
+
+// After parsing saved choice:
+try {
+  const parsed = saved ? JSON.parse(saved) : null;
+  if (parsed?.choice === 'accepted') {
+    // loadAnalytics(); // your function that injects analytics script
+  }
+} catch {}
