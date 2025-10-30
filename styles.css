@@ -308,6 +308,20 @@ html[data-theme="dark"] .mobile-nav a:hover{ color: var(--accent1) !important; }
   }
 }
 
+/* --- Language-specific responsiveness (Spanish) --- */
+/* In Spanish, keep the header fixed and shift the full-nav breakpoint to 1510px */
+html[data-lang="es"] .site-header{ position: fixed !important; }
+/* Between 1300 and 1509px, force hamburger (hide full nav) */
+@media (min-width: 1300px) and (max-width: 1509.98px){
+  html[data-lang="es"] .nav{ display: none !important; }
+  html[data-lang="es"] .menu-toggle{ display: block !important; }
+}
+/* From 1510px and up, show full nav and hide hamburger */
+@media (min-width: 1510px){
+  html[data-lang="es"] .nav{ display: flex !important; }
+  html[data-lang="es"] .menu-toggle{ display: none !important; }
+}
+
 /* Hamburger color for themes */
 @media (prefers-color-scheme: dark){ .menu-toggle{ color: var(--navy); } }
 html[data-theme="light"] .menu-toggle{ color: #0b1220; }
