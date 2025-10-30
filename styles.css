@@ -223,6 +223,7 @@ body.is-locked {
   border: none;
   cursor: pointer;
   display: block;
+  color: #0b1220; /* make hamburger lines dark in light mode */
 }
 
 /* Theme toggle button (icon only) */
@@ -241,11 +242,24 @@ body.is-locked {
 .theme-toggle:hover{ filter: brightness(1.08); }
 @media (min-width: 768px){ .theme-toggle{ margin-left: 0; } }
 
+/* Theme control inside the mobile sheet */
+.mobile-theme{ margin-top: .5rem; }
+.mobile-theme .theme-toggle{
+  width: 44px; height: 44px;
+  border-color: var(--light-gray);
+  color: var(--navy);
+}
+
 @media (min-width: 768px) {
   .menu-toggle {
     display: none;
   }
 }
+
+/* Hamburger color for themes */
+@media (prefers-color-scheme: dark){ .menu-toggle{ color: var(--navy); } }
+html[data-theme="light"] .menu-toggle{ color: #0b1220; }
+html[data-theme="dark"] .menu-toggle{ color: var(--navy); }
 
 /* Backdrop behind the mobile sheet */
 .mobile-backdrop {
@@ -403,6 +417,10 @@ body.is-locked {
   .btn--pink{ box-shadow: 0 10px 24px rgba(244, 143, 177, 0.45); }
 }
 html[data-theme="dark"] .btn--pink{ box-shadow: 0 10px 24px rgba(244, 143, 177, 0.45); }
+
+/* Make pink CTA text black in light theme for readability */
+@media (prefers-color-scheme: light){ .btn--pink{ color: #0b1220; } }
+html[data-theme="light"] .btn--pink{ color: #0b1220; }
 
 @media (prefers-color-scheme: dark) {
   .btn--ghost {
@@ -1444,14 +1462,18 @@ section[id] {
 
 /* --- Form theming (clear in light and dark) --- */
 :root{
-  --field-bg-light: rgba(255,255,255,0.92);
-  --field-text-light: #0b1220;
-  --field-border-light: rgba(2,6,23,0.16);
+  /* Light mode form variables */
+  --field-bg-light: #f8fafc;               /* very light box background */
+  --field-text-light: #0b1220;             /* near-black text */
+  --field-border-light: rgba(2,6,23,0.16); /* subtle border */
+  --field-placeholder-light: #6b7280;      /* grey placeholder text */
+
+  /* Dark mode form variables */
   --field-bg-dark: rgba(15,23,42,0.78);
   --field-text-dark: #f8fafc;
   --field-border-dark: rgba(255,255,255,0.22);
-  --field-placeholder-light: rgba(2,6,23,0.56);
   --field-placeholder-dark: rgba(248,250,252,0.58);
+
   --focus-ring: #90caf9;
   --error: #b91c1c;
   --success: #16a34a;
@@ -1605,3 +1627,80 @@ html[data-theme="light"] .form{ background: #fff; border-color: var(--light-gray
 
 .form .field > span:first-child{ font-weight: 600; opacity: .95; color: var(--field-text); }
 .form p, .form label, .form small { color: var(--field-text); }
+
+/* Light form: black text, transparent fields, light grey placeholders */
+@media (prefers-color-scheme: light){
+  /* Ensure labels like "Name", "Email" render black */
+  .form .field > span:first-child,
+  .form label,
+  .form small { color: #0b1220 !important; }
+  .form input,
+  .form textarea,
+  .form select{
+    color: #000 !important;                 /* black entered text */
+    background: transparent !important;     /* clear field background */
+    border-color: #cbd5e1 !important;       /* light slate border */
+    caret-color: #000;
+  }
+  .form input::placeholder,
+  .form textarea::placeholder,
+  .form select::placeholder{
+    color: #94a3b8 !important;              /* light grey hint */
+    opacity: 1;
+  }
+  /* Date/Time pseudo-content looks like placeholder in WebKit; make it grey until valid */
+  .form input[type="date"]:not(:focus):not(:valid)::-webkit-datetime-edit,
+  .form input[type="time"]:not(:focus):not(:valid)::-webkit-datetime-edit{ color: #94a3b8; }
+  .form input[type="date"]:focus::-webkit-datetime-edit,
+  .form input[type="date"]:valid::-webkit-datetime-edit,
+  .form input[type="time"]:focus::-webkit-datetime-edit,
+  .form input[type="time"]:valid::-webkit-datetime-edit{ color: #000; }
+  /* Keep picker icons readable */
+  .form input[type="date"]::-webkit-calendar-picker-indicator,
+  .form input[type="time"]::-webkit-calendar-picker-indicator{ opacity: .8; }
+
+  /* Select: show grey when placeholder option (empty value) is selected; relies on required+value="" */
+  .form select:invalid{ color: #94a3b8 !important; }
+  .form select:valid{ color: #000 !important; }
+  .form input:focus,
+  .form textarea:focus,
+  .form select:focus{
+    background: transparent !important;
+    border-color: #60a5fa !important;       /* clearer focus border */
+  }
+}
+
+/* Manual light override has priority */
+html[data-theme="light"] .form input,
+html[data-theme="light"] .form textarea,
+html[data-theme="light"] .form select{
+  color: #000 !important;
+  background: transparent !important;
+  border-color: #cbd5e1 !important;
+  caret-color: #000;
+}
+html[data-theme="light"] .form .field > span:first-child,
+html[data-theme="light"] .form label,
+html[data-theme="light"] .form small{ color: #0b1220 !important; }
+html[data-theme="light"] .form input::placeholder,
+html[data-theme="light"] .form textarea::placeholder,
+html[data-theme="light"] .form select::placeholder{
+  color: #94a3b8 !important;
+  opacity: 1;
+}
+html[data-theme="light"] .form input:focus,
+html[data-theme="light"] .form textarea:focus,
+html[data-theme="light"] .form select:focus{
+  background: transparent !important;
+  border-color: #60a5fa !important;
+}
+
+/* Manual light override: date/time and select states */
+html[data-theme="light"] .form input[type="date"]:not(:focus):not(:valid)::-webkit-datetime-edit,
+html[data-theme="light"] .form input[type="time"]:not(:focus):not(:valid)::-webkit-datetime-edit{ color: #94a3b8; }
+html[data-theme="light"] .form input[type="date"]:focus::-webkit-datetime-edit,
+html[data-theme="light"] .form input[type="date"]:valid::-webkit-datetime-edit,
+html[data-theme="light"] .form input[type="time"]:focus::-webkit-datetime-edit,
+html[data-theme="light"] .form input[type="time"]:valid::-webkit-datetime-edit{ color: #000; }
+html[data-theme="light"] .form select:invalid{ color: #94a3b8 !important; }
+html[data-theme="light"] .form select:valid{ color: #000 !important; }

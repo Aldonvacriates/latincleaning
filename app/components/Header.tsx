@@ -278,6 +278,11 @@ export default function Header() {
           </svg>
           Instagram
         </a>
+
+        {/* Theme toggle available inside the mobile sheet for convenience */}
+        <div className="mobile-theme">
+          <ThemeToggle />
+        </div>
       </nav>
     </>
   );
