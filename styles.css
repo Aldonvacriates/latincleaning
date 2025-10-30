@@ -29,6 +29,9 @@ body {
   line-height: 1.5;
 }
 
+/* Prevent accidental horizontal scroll on some mobile browsers */
+html { overflow-x: hidden; }
+
 /* Smooth scroll and header offset for in-page anchors */
 :root { scroll-behavior: smooth; }
 .section, #findus, #services, #why, #testimonials, #about, #quote { scroll-margin-top: var(--header-offset, 84px); }
@@ -181,13 +184,30 @@ body.is-locked {
   }
 }
 
+/* Backdrop behind the mobile sheet */
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45); /* slate-900 at ~45% */
+  backdrop-filter: blur(2px);
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s ease-out;
+}
+.mobile-backdrop[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-backdrop { transition: none; }
+}
+
 /* Mobile navigation sheet */
 .mobile-nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  height: 100dvh; /* fit visible viewport on mobile */
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   z-index: 40;
@@ -196,12 +216,19 @@ body.is-locked {
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain; /* avoid rubberband scrolling content behind */
+  touch-action: pan-y; /* disable horizontal pans */
+  padding-bottom: env(safe-area-inset-bottom);
   transform: translateY(-100%);
-  transition: transform 0.3s ease-in-out;
+  opacity: 0;
+  transition: transform .38s cubic-bezier(0.16, 1, 0.3, 1), opacity .3s ease-out;
 }
 
 .mobile-nav[data-open="true"] {
   transform: translateY(0);
+  opacity: 1;
 }
 
 .mobile-nav a {
@@ -210,6 +237,8 @@ body.is-locked {
   color: var(--navy);
   text-decoration: none;
   padding: 1rem;
+  opacity: 0;
+  transform: translateY(14px) scale(0.98);
 }
 
 @media (max-width: 480px) {
@@ -217,6 +246,29 @@ body.is-locked {
     font-size: 1.25rem;
     padding: 0.75rem;
   }
+}
+
+/* Subtle staggered reveal for mobile nav links */
+@keyframes navItemIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.mobile-nav[data-open="true"] a {
+  animation: navItemIn .36s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+.mobile-nav[data-open="true"] a:nth-child(1) { animation-delay: 60ms; }
+.mobile-nav[data-open="true"] a:nth-child(2) { animation-delay: 120ms; }
+.mobile-nav[data-open="true"] a:nth-child(3) { animation-delay: 180ms; }
+.mobile-nav[data-open="true"] a:nth-child(4) { animation-delay: 240ms; }
+.mobile-nav[data-open="true"] a:nth-child(5) { animation-delay: 300ms; }
+.mobile-nav[data-open="true"] a:nth-child(6) { animation-delay: 360ms; }
+.mobile-nav[data-open="true"] a:nth-child(7) { animation-delay: 420ms; }
+.mobile-nav[data-open="true"] a:nth-child(8) { animation-delay: 480ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav a { opacity: 1; transform: none; }
+  .mobile-nav[data-open="true"] a { animation: none; }
 }
 
 /* buttons */

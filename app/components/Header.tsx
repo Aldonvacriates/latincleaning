@@ -3,17 +3,26 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 function lockBodyScroll(lock: boolean) {
+  const html = document.documentElement;
   if (lock) {
     const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
     document.body.dataset.scrollY = String(scrollY);
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
     document.body.classList.add("is-locked");
+    html.style.overflow = 'hidden';
   } else {
     document.body.classList.remove("is-locked");
     const prev = parseInt(document.body.dataset.scrollY || "0", 10);
     document.body.style.position = "";
     document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    html.style.overflow = '';
     window.scrollTo(0, prev);
     delete document.body.dataset.scrollY;
   }
@@ -27,7 +36,8 @@ export default function Header() {
   const setOpenSafe = useCallback((next: boolean) => {
     setOpen((prev) => {
       if (prev === next) return prev;
-      lockBodyScroll(next);
+      // Defer to next frame to avoid layout thrash
+      requestAnimationFrame(() => lockBodyScroll(next));
       return next;
     });
   }, []);
@@ -124,6 +134,14 @@ export default function Header() {
 
         <a className="btn btn--cta header-cta" href="#quote">Book Now</a>
       </header>
+
+      {/* Backdrop behind the mobile nav; clicking closes the menu */}
+      <div
+        className="mobile-backdrop"
+        aria-hidden="true"
+        data-open={open}
+        onClick={() => setOpenSafe(false)}
+      />
 
       <nav
         ref={navRef}
