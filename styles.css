@@ -29,6 +29,10 @@ body {
   line-height: 1.5;
 }
 
+/* Smooth scroll and header offset for in-page anchors */
+:root { scroll-behavior: smooth; }
+.section, #findus, #services, #why, #testimonials, #about, #quote { scroll-margin-top: var(--header-offset, 84px); }
+
 /* Prevent background scroll when mobile nav is open */
 body.is-locked {
   /* only prevent scrolling; position/top are managed in JS to preserve scroll pos */
@@ -531,6 +535,18 @@ section[id] {
   border: 1px solid var(--light-gray);
 }
 
+/* Variant for showing the brand logo at its natural size, responsive */
+.about__media--logo {
+  display: flex;
+  justify-content: center;
+}
+.about__media--logo img {
+  width: clamp(220px, 32vw, 520px);
+  height: auto;
+  max-width: 100%;
+  border-radius: 12px;
+}
+
 .about__list {
   list-style: none;
   padding: 0;
@@ -669,7 +685,8 @@ section[id] {
 }
 
 .site-footer a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  opacity: 0.9;
 }
 
 .footer__brand img {
@@ -682,6 +699,136 @@ section[id] {
 
 .site-footer p {
   opacity: 0.8;
+}
+
+/* map embed */
+.map-embed {
+  margin-top: 0.75rem;
+  border: 1px solid var(--light-gray);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.map-embed iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  background: #e2e8f0; /* skeleton */
+}
+
+/* Find Us section */
+.findus__card {
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+.findus__grid {
+  display: grid;
+  gap: 1.25rem;
+}
+@media (min-width: 900px) {
+  .findus__grid {
+    grid-template-columns: 1fr 1.35fr;
+    align-items: start;
+  }
+}
+.findus__heading {
+  margin: .25rem 0 .5rem;
+  font-size: 1.15rem;
+}
+.findus__meta p {
+  margin: .25rem 0;
+}
+.findus__meta {
+  list-style: none;
+  padding: .5rem;
+  margin: .5rem 0 0;
+  display: grid;
+  gap: .5rem;
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  border: 1px solid var(--light-gray);
+  border-radius: 14px;
+}
+.findus__item {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  align-items: start;
+  gap: .6rem;
+  padding: .45rem .35rem;
+  border-radius: 12px;
+}
+.findus__icon {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #1e293b;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+.findus__label {
+  font-weight: 600;
+  font-size: .92rem;
+  margin-bottom: 2px;
+}
+
+/* Improve link styling in Find Us contact block */
+.findus__meta a {
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 600;
+}
+.findus__meta a:hover {
+  color: var(--accent1);
+  text-decoration: none;
+}
+.findus__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .75rem;
+}
+
+/* Chips for areas */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: 0;
+  list-style: none;
+  margin: .25rem 0 .75rem;
+}
+.chip {
+  position: relative;
+  padding: .4rem .75rem .4rem 1.25rem;
+  border: 1px solid var(--light-gray);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  font-size: .92rem;
+  color: var(--navy);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(2,6,23,.06);
+}
+.chips--fancy .chip::before {
+  content: "";
+  position: absolute;
+  left: .55rem; top: 50%; transform: translateY(-50%);
+  width: .42rem; height: .42rem; border-radius: 50%;
+  background: var(--accent1);
+  box-shadow: 0 0 0 3px rgba(244, 143, 177, .18);
+}
+.chips__note {
+  margin-top: .25rem;
+  color: #475569;
+  font-size: .92rem;
+}
+
+/* Remove double border on map inside the card */
+.findus .map-embed {
+  border: none;
+  box-shadow: none;
 }
 
 /* reveal */
@@ -951,11 +1098,15 @@ section[id] {
 .hero__bg img{
   width:100%; height:100%;
   object-fit:cover;
-  /* transform: scale(1.04); */
-  /* filter: saturate(1.06) contrast(1.02); */
-  /* animation: roseKenBurns 3s ease-out both; */
-  /* will-change: transform; */
 }
+/* Left-to-right soft reveal overlay for hero */
+.hero__wipe{ position:absolute; inset:0; pointer-events:none; background: linear-gradient(90deg, rgba(255,228,238,0.95) 0%, rgba(255,228,238,0.80) 45%, rgba(255,246,251,0.50) 75%, rgba(255,255,255,0) 100%); opacity:1; transform: translateX(0); }
+.hero__wipe.is-done{ animation: heroWipe 600ms ease-out forwards; }
+@keyframes heroWipe{ to { transform: translateX(100%); opacity: 0; } }
+@media (prefers-reduced-motion: reduce){ .hero__wipe.is-done{ animation:none; transform: translateX(100%); opacity:0; } }
+/* Show hero image only when fully loaded, no scaling */
+.hero__img{ opacity: 0; transition: opacity .15s ease-out; }
+.hero__img.is-loaded{ opacity: 1; }
 /* @keyframes roseKenBurns{
   0%   { transform: scale(1.08) translateY(0); }
   100% { transform: scale(1.02) translateY(-1.2%); }
