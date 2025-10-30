@@ -131,6 +131,7 @@ export default function Header() {
         className="mobile-nav"
         aria-hidden={!open}
         aria-label="Mobile navigation"
+        data-open={open}
       >
         <a href="#services">Services</a>
         <a href="#why">Why Us</a>

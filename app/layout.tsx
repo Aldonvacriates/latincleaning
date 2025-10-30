@@ -3,6 +3,12 @@ export const metadata = {
   description: 'Professional Cleaning Services',
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+} as const;
+
 import '../styles.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
