@@ -31,8 +31,8 @@ export default function FindUs() {
                   </svg>
                 </span>
                 <div>
-                  <div className="findus__label">Address</div>
-                  <div>Park City, Utah, USA</div>
+              <div className="findus__label">Address</div>
+                  <div className="findus__city">Park City, Utah, USA</div>
                 </div>
               </li>
               <li className="findus__item">
@@ -61,10 +61,10 @@ export default function FindUs() {
             </ul>
 
             <div className="findus__actions">
-              <a className="btn btn--primary" href="tel:+18018606299">Call Us</a>
-              <a className="btn btn--ghost" href="mailto:hello@latinclean.online">Email Us</a>
+              <a className="btn btn--pink btn--half" href="tel:+18018606299">Call Us</a>
+              <a className="btn btn--pink btn--half" href="mailto:hello@latinclean.online">Email Us</a>
               <a
-                className="btn btn--ghost"
+                className="btn btn--pink btn--full"
                 href="https://www.google.com/maps/search/?api=1&query=Park+City%2C+UT"
                 target="_blank"
                 rel="noopener"

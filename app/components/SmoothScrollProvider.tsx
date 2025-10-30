@@ -79,5 +79,90 @@ export default function SmoothScrollProvider() {
     };
   }, []);
 
+  // Header transparency on scroll (sticky, blurred, more clear when scrolling)
+  useEffect(() => {
+    const header = document.querySelector<HTMLElement>('.site-header');
+    if (!header) return;
+    const onScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      header.classList.toggle('is-scrolled', y > 8);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Scrollspy: highlight nav link for section in view
+  useEffect(() => {
+    const ids = [
+      'services',
+      'why',
+      'testimonials',
+      'about',
+      'findus',
+      'quote',
+    ];
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => !!el);
+
+    const links = (id: string) =>
+      Array.from(document.querySelectorAll<HTMLAnchorElement>(`a[href="#${id}"]`));
+
+    let ticking = false;
+    const getHeaderOffset = () => {
+      const v = parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue('--header-offset') || '0',
+        10
+      );
+      return isNaN(v) ? 0 : v;
+    };
+
+    const setActive = (id: string | null) => {
+      ids.forEach((x) => links(x).forEach((a) => a.classList.toggle('is-active', x === id)));
+    };
+
+    const update = () => {
+      ticking = false;
+      const offset = getHeaderOffset() + 12;
+      let current: string | null = null;
+
+      for (const el of sections) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= offset && r.bottom > offset) {
+          current = el.id;
+        }
+      }
+
+      // If none matched, pick the first section below the header
+      if (!current) {
+        let minTop = Infinity;
+        for (const el of sections) {
+          const t = el.getBoundingClientRect().top - offset;
+          if (t >= 0 && t < minTop) {
+            minTop = t;
+            current = el.id;
+          }
+        }
+      }
+      setActive(current);
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    requestAnimationFrame(update);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
   return null;
 }

@@ -38,6 +38,7 @@ body {
   background: var(--primary);
   overflow-x: hidden;
   line-height: 1.5;
+  padding-top: var(--header-offset, 84px);
 }
 /* Improve native form control theming in both modes */
 body { color-scheme: light dark; }
@@ -136,25 +137,38 @@ body.is-locked {
 
 /* header */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
   padding: 0.85rem 1.5rem;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(0px);
   box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--light-gray);
+  transition: background-color .25s ease, backdrop-filter .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* When scrolled, header becomes more clear (more transparent), keeping blur */
+.site-header.is-scrolled{
+  background: rgba(255, 255, 255, 0.60);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 10px rgba(2,6,23,0.06);
 }
 
 @media (prefers-color-scheme: dark) {
   .site-header {
-    background: rgba(2, 6, 23, 0.74);
+    background: rgba(2, 6, 23, 0.82);
     box-shadow: var(--shadow);
+    backdrop-filter: blur(0px);
   }
   .brand, .nav a { color: var(--navy); }
+  .site-header.is-scrolled{ background: rgba(2, 6, 23, 0.54); backdrop-filter: blur(12px); box-shadow: 0 2px 12px rgba(2,6,23,0.45); }
 }
 
 .brand {
@@ -197,6 +211,12 @@ body.is-locked {
   opacity: 1;
 }
 
+/* Active link while scrolling */
+.nav a.is-active {
+  color: var(--accent1);
+  opacity: 1;
+}
+
 /* Mobile navigation toggle */
 .menu-toggle {
   background: transparent;
@@ -205,36 +225,21 @@ body.is-locked {
   display: block;
 }
 
-/* Theme switch (Auto/Light/Dark) */
-.theme-switch{
-  display: inline-flex;
-  align-items: center;
+/* Theme toggle button (icon only) */
+.theme-toggle{
+  background: transparent;
   border: 1px solid var(--light-gray);
   border-radius: 999px;
-  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   margin-left: 6px;
-  background: rgba(255,255,255,0.7);
   color: var(--navy);
 }
-.theme-switch__btn{
-  appearance: none;
-  background: transparent;
-  border: none;
-  padding: 6px 10px;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-}
-.theme-switch__btn[aria-pressed="true"]{
-  background: rgba(144,202,249,0.22);
-}
-@media (prefers-color-scheme: dark){
-  .theme-switch{ background: rgba(10, 15, 25, 0.6); }
-  .theme-switch__btn[aria-pressed="true"]{ background: rgba(148,163,184,0.26); }
-}
-html[data-theme="dark"] .theme-switch{ background: rgba(10, 15, 25, 0.6); }
-html[data-theme="dark"] .theme-switch__btn[aria-pressed="true"]{ background: rgba(148,163,184,0.26); }
-@media (min-width: 768px){ .theme-switch{ margin-left: 0; } }
+.theme-toggle:hover{ filter: brightness(1.08); }
+@media (min-width: 768px){ .theme-toggle{ margin-left: 0; } }
 
 @media (min-width: 768px) {
   .menu-toggle {
@@ -280,7 +285,7 @@ html[data-theme="dark"] .theme-switch__btn[aria-pressed="true"]{ background: rgb
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain; /* avoid rubberband scrolling content behind */
-  touch-action: pan-y; /* disable horizontal pans */
+  touch-action: auto;
   padding-bottom: env(safe-area-inset-bottom);
   transform: translateY(-100%);
   opacity: 0;
@@ -293,8 +298,8 @@ html[data-theme="dark"] .theme-switch__btn[aria-pressed="true"]{ background: rgb
 }
 
 .mobile-nav[data-open="true"] {
-  /* Compose both axes when open; defaults to 0 */
-  transform: translate(var(--nav-shift-x, 0px), var(--nav-shift, 0px));
+  /* Track vertical drag amount via CSS variable */
+  transform: translateY(var(--nav-shift, 0px));
   opacity: 1;
 }
 
@@ -307,6 +312,8 @@ html[data-theme="dark"] .theme-switch__btn[aria-pressed="true"]{ background: rgb
   opacity: 0;
   transform: translateY(14px) scale(0.98);
 }
+
+.mobile-nav a.is-active { color: var(--accent1); }
 
 @media (max-width: 480px) {
   .mobile-nav a {
@@ -347,11 +354,23 @@ html[data-theme="dark"] .theme-switch__btn[aria-pressed="true"]{ background: rgb
   font-weight: 600;
   box-shadow: var(--shadow);
   transition: 0.2s;
+  text-align: center; /* ensure button labels are centered */
 }
 
 .btn--cta {
   background: var(--accent1);
   color: var(--white);
+}
+
+/* Primary action button (used in forms) */
+.btn--primary{
+  background: var(--accent2);
+  color: #0b1220;
+  border: 1px solid color-mix(in oklab, var(--accent2) 65%, black 35%);
+}
+.btn--primary:hover{
+  filter: brightness(1.05);
+  box-shadow: var(--shadow-hover);
 }
 
 .btn--cta:hover {
@@ -368,6 +387,22 @@ html[data-theme="dark"] .theme-switch__btn[aria-pressed="true"]{ background: rgb
 .btn--ghost:hover {
   background: rgba(255, 255, 255, 0.7);
 }
+
+/* Pink call-to-action variant for Find Us buttons */
+.btn--pink{
+  background: var(--accent1);
+  color: #fff;
+  border: 1px solid color-mix(in oklab, var(--accent1) 70%, black 30%);
+  box-shadow: 0 8px 20px rgba(244, 143, 177, 0.35);
+}
+.btn--pink:hover{
+  filter: brightness(1.06);
+  box-shadow: 0 10px 24px rgba(244, 143, 177, 0.45);
+}
+@media (prefers-color-scheme: dark){
+  .btn--pink{ box-shadow: 0 10px 24px rgba(244, 143, 177, 0.45); }
+}
+html[data-theme="dark"] .btn--pink{ box-shadow: 0 10px 24px rgba(244, 143, 177, 0.45); }
 
 @media (prefers-color-scheme: dark) {
   .btn--ghost {
@@ -937,23 +972,33 @@ section[id] {
   margin-bottom: 2px;
 }
 
+/* City text: pink and neon on hover/click */
+.findus__city{ color: var(--accent1); font-weight: 700; }
+.findus__city:hover,
+.findus__city:active{ text-shadow: 0 0 6px rgba(244,143,177,.6), 0 0 14px rgba(244,143,177,.45); }
+
 /* Improve link styling in Find Us contact block */
 .findus__meta a {
-  color: var(--navy);
-  text-decoration: none;
-  font-weight: 600;
-}
-.findus__meta a:hover {
   color: var(--accent1);
   text-decoration: none;
+  font-weight: 700;
+  transition: filter .15s ease-out, text-shadow .15s ease-out;
+}
+.findus__meta a:hover,
+.findus__meta a:active {
+  color: var(--accent1);
+  text-decoration: none;
+  text-shadow: 0 0 6px rgba(244, 143, 177, 0.6), 0 0 14px rgba(244, 143, 177, 0.45);
 }
 .findus__actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: .5rem;
   margin-top: .75rem;
-  justify-content: center;
 }
+.findus__actions .btn { width: 100%; }
+.findus__actions .btn--half { grid-column: span 1; }
+.findus__actions .btn--full { grid-column: 1 / -1; }
 
 /* Chips for areas */
 .chips {
@@ -1386,15 +1431,13 @@ section[id] {
 /* --- Mobile nav drag-to-close support --- */
 /* Ensure the open state composes with a drag shift (set from JS) */
 .mobile-nav[data-open="true"]{
-  /* Fallback for older browsers: use combined translate */
-  transform: translate(var(--nav-shift-x, 0px), var(--nav-shift, 0px));
-  /* Individual transform property for modern browsers */
-  translate: var(--nav-shift-x, 0px) var(--nav-shift, 0px);
+  transform: translateY(var(--nav-shift, 0px));
   will-change: transform;
-  transition: transform 160ms ease-out, translate 160ms ease-out;
-  touch-action: pan-y; /* allow vertical scroll; we handle horizontal */
+  transition: transform 160ms ease-out;
+  touch-action: none; /* allow custom vertical gesture handling */
   overscroll-behavior: contain;
 }
+.mobile-nav[data-open="true"][data-dragging="true"]{ transition: none; }
 
 /* Backdrop should not allow sideways scroll when open */
 .mobile-backdrop[data-open="true"]{ overscroll-behavior: contain; }
@@ -1430,6 +1473,12 @@ section[id] {
 .form{
   max-width: 860px;
   margin-inline: auto;
+  background: #fff; /* light card look in light mode */
+  border: 1px solid var(--light-gray);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  color: var(--field-text); /* ensure readable text color inside form */
 }
 .form .field{ display: grid; gap: 6px; }
 .form .field > span:first-child{ font-weight: 600; opacity: .9; }
@@ -1475,8 +1524,10 @@ select:-webkit-autofill{
   .icon-container svg { color: #0b1220; }
   .findus__card { color: #0b1220; }
   .findus__meta { background: linear-gradient(180deg, #ffffff, #f8fafc); color: #0b1220; }
-  .findus__meta a { color: #0b1220; }
+  /* keep links pink for visibility */
   .chip { color: #0b1220; }
+  /* Form container in dark mode */
+  .form{ background: rgba(10,15,25,0.6); border-color: rgba(248,250,252,0.12); }
 }
 
 /* Manual theme override (takes precedence over system) */
@@ -1517,7 +1568,7 @@ html[data-theme="dark"] .card{ color: #0b1220; }
 html[data-theme="dark"] .icon-container svg{ color: #0b1220; }
 html[data-theme="dark"] .findus__card{ color: #0b1220; }
 html[data-theme="dark"] .findus__meta{ background: linear-gradient(180deg, #ffffff, #f8fafc); color: #0b1220; }
-html[data-theme="dark"] .findus__meta a{ color: #0b1220; }
+/* keep links pink for visibility */
 html[data-theme="dark"] .chip{ color: #0b1220; }
 
 /* Force the light theme values when user selects light override, even if OS is dark */
@@ -1549,4 +1600,8 @@ html[data-theme="light"] .hero--rose .hero__content{ color: #0b1220; }
 html[data-theme="light"] .hero--rose .btn--ghost{ background: rgba(255,255,255,.92); border-color: rgba(2,6,23,.10); color: #0b1220; }
 html[data-theme="light"] .highlight--sunrise{ background: linear-gradient(90deg, #ffc7d9, #ffe59a, #ffc7d9); color: inherit; }
 html[data-theme="light"] .site-footer{ background: var(--navy); color: var(--white); }
+/* Ensure form is light in explicit light mode */
+html[data-theme="light"] .form{ background: #fff; border-color: var(--light-gray); }
 
+.form .field > span:first-child{ font-weight: 600; opacity: .95; color: var(--field-text); }
+.form p, .form label, .form small { color: var(--field-text); }

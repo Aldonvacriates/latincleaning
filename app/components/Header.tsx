@@ -36,6 +36,9 @@ export default function Header() {
   const startYRef = useRef<number | null>(null);
   const startXRef = useRef<number | null>(null);
   const orientRef = useRef<null | 'x' | 'y'>(null);
+  const lastYRef = useRef<number | null>(null);
+  const lastTsRef = useRef<number | null>(null);
+  const lastVyRef = useRef<number>(0);
   const draggingRef = useRef(false);
 
   const setOpenSafe = useCallback((next: boolean) => {
@@ -163,11 +166,14 @@ export default function Header() {
           const t = e.touches[0];
           startYRef.current = t.clientY;
           startXRef.current = t.clientX;
+          lastYRef.current = t.clientY;
+          lastTsRef.current = performance.now();
+          lastVyRef.current = 0;
           orientRef.current = null;
           draggingRef.current = true;
           // Reset any previous drag amounts
           navRef.current?.style.setProperty('--nav-shift', '0px');
-          navRef.current?.style.setProperty('--nav-shift-x', '0px');
+          navRef.current?.setAttribute('data-dragging', 'true');
         }}
         onTouchMove={(e) => {
           if (!open || !draggingRef.current) return;
@@ -183,30 +189,54 @@ export default function Header() {
             if (adx < 6 && ady < 6) return; // wait for intent
             orientRef.current = adx > ady ? 'x' : 'y';
           }
-          if (orientRef.current === 'x') {
-            // horizontal drag to close
+          if (orientRef.current === 'y') {
+            // vertical drag to close (swipe up)
             try { e.preventDefault(); } catch {}
-            const max = Math.floor(window.innerWidth * 0.75);
-            const clamped = Math.max(-max, Math.min(dx, max));
-            navRef.current?.style.setProperty('--nav-shift-x', `${clamped}px`);
+            const deltaY = Math.min(0, dy); // only allow dragging upward
+            const min = -Math.floor(window.innerHeight * 0.85);
+            const shift = Math.max(deltaY, min);
+            navRef.current?.style.setProperty('--nav-shift', `${shift}px`);
+            const now = performance.now();
+            const prevY = lastYRef.current;
+            const prevT = lastTsRef.current;
+            if (prevY != null && prevT != null) {
+              const dt = Math.max(1, now - prevT);
+              lastVyRef.current = (t.clientY - prevY) / dt; // px per ms
+            }
+            lastYRef.current = t.clientY;
+            lastTsRef.current = now;
           }
         }}
         onTouchEnd={() => {
           if (!open) return;
-          const valx = navRef.current?.style.getPropertyValue('--nav-shift-x') || '0';
-          const shiftX = parseInt(valx, 10) || 0;
+          const valy = navRef.current?.style.getPropertyValue('--nav-shift') || '0';
+          const shiftY = parseInt(valy, 10) || 0;
           draggingRef.current = false;
           startYRef.current = null;
           startXRef.current = null;
-          const threshold = Math.max(80, Math.min(120, Math.round(window.innerWidth * 0.2)));
-          if (Math.abs(shiftX) > threshold) {
+          const vy = lastVyRef.current; // px/ms
+          const shouldClose = Math.abs(shiftY) > window.innerHeight * 0.18 || vy < -0.7; // fast upward flick or distance
+          const nav = navRef.current;
+          if (nav) nav.removeAttribute('data-dragging');
+          if (shouldClose) {
+            // Animate remaining distance at roughly the user's swipe velocity
+            const remaining = Math.max(0, window.innerHeight - Math.abs(shiftY));
+            const speed = Math.max(0.35, Math.min(2.0, Math.abs(vy))); // px/ms
+            const duration = Math.max(120, Math.min(360, Math.round(remaining / speed)));
+            if (nav) {
+              nav.style.transition = `transform ${duration}ms linear, opacity ${duration}ms linear`;
+            }
             requestAnimationFrame(() => {
-              navRef.current?.style.setProperty('--nav-shift-x', '0px');
+              nav?.style.setProperty('--nav-shift', '0px');
               setOpenSafe(false);
+              // Clear inline transition after it completes
+              setTimeout(() => { if (nav) nav.style.transition = ''; }, duration + 50);
             });
           } else {
             // Snap back smoothly
-            navRef.current?.style.setProperty('--nav-shift-x', '0px');
+            if (nav) nav.style.transition = `transform 160ms ease-out`;
+            nav?.style.setProperty('--nav-shift', '0px');
+            setTimeout(() => { if (nav) nav.style.transition = ''; }, 200);
           }
           orientRef.current = null;
         }}
@@ -215,7 +245,8 @@ export default function Header() {
           draggingRef.current = false;
           startYRef.current = null;
           startXRef.current = null;
-          navRef.current?.style.setProperty('--nav-shift-x', '0px');
+          navRef.current?.style.setProperty('--nav-shift', '0px');
+          navRef.current?.removeAttribute('data-dragging');
           orientRef.current = null;
         }}
       >
