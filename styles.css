@@ -46,8 +46,8 @@ body {
   background: var(--primary);
   overflow-x: hidden;
   line-height: 1.5;
-  /* Offset main content by fixed header height + safe area */
-  padding-top: calc(var(--header-height) + env(safe-area-inset-top));
+  /* Sticky header participates in layout; no global top padding needed */
+  padding-top: 0;
 }
 /* Improve native form control theming in both modes */
 body { color-scheme: light dark; }
@@ -146,28 +146,27 @@ body.is-locked {
 
 /* header */
 .site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: sticky;          /* sticky */
+  top: 0;                    /* top-0 */
+  z-index: 999;              /* z-[999] */
+  display: flex;             /* flex */
+  align-items: center;       /* items-center */
+  justify-content: space-between; /* justify-between */
   gap: 1.5rem;
-  padding: 0 1.0rem;
-  padding-top: env(safe-area-inset-top); /* avoid iPhone notch */
-  height: calc(var(--header-height) + env(safe-area-inset-top));
+  padding: 1rem;             /* p-4 */
+  min-height: var(--header-height);
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(4px);         /* backdrop-blur-sm */
+  -webkit-backdrop-filter: blur(4px);
   box-shadow: var(--shadow);
   border-bottom: 1px solid var(--light-gray);
   transition: background-color .25s ease, backdrop-filter .25s ease, box-shadow .25s ease, border-color .25s ease;
   box-sizing: border-box;
   width: 100%;
-  max-width: 100vw;              /* prevent right-side clipping on iOS */
-  transform: translateZ(0);       /* stabilize compositing for backdrop-filter */
+  max-width: 100vw;
+}
+@media (min-width: 1024px){ /* lg:px-6 */
+  .site-header{ padding-left: 1.5rem; padding-right: 1.5rem; }
 }
 @media (max-width: 600px){
   .site-header{ padding: 0 0.9rem; gap: .75rem; }
@@ -310,7 +309,7 @@ html[data-theme="dark"] .mobile-nav a:hover{ color: var(--accent1) !important; }
 
 /* --- Language-specific responsiveness (Spanish) --- */
 /* In Spanish, keep the header fixed and shift the full-nav breakpoint to 1510px */
-html[data-lang="es"] .site-header{ position: fixed !important; }
+html[data-lang="es"] .site-header{ position: sticky !important; top: 0; }
 /* Between 1300 and 1509px, force hamburger (hide full nav) */
 @media (min-width: 1300px) and (max-width: 1509.98px){
   html[data-lang="es"] .nav{ display: none !important; }
