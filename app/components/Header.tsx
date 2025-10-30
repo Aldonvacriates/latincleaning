@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import ThemeToggle from "./ThemeToggle";
 
 function lockBodyScroll(lock: boolean) {
   const html = document.documentElement;
@@ -104,6 +105,8 @@ export default function Header() {
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
+
+        <ThemeToggle />
 
         <nav className="nav">
           <a href="#services">Services</a>
