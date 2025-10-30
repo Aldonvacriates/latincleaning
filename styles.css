@@ -153,6 +153,9 @@ body.is-locked {
   border-bottom: 1px solid var(--light-gray);
   transition: background-color .25s ease, backdrop-filter .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
+@media (max-width: 600px){
+  .site-header{ padding: 0.7rem 0.9rem; gap: .75rem; }
+}
 
 /* When scrolled, header becomes more clear (more transparent), keeping blur */
 .site-header.is-scrolled{
@@ -179,6 +182,8 @@ body.is-locked {
   color: var(--navy);
   font-weight: 700;
 }
+.brand__text{ display: none; }
+@media (min-width: 520px){ .brand__text{ display: inline; } }
 
 .brand__logo {
   width: 40px;
@@ -234,6 +239,7 @@ html[data-theme="dark"] .mobile-nav a:hover{ color: var(--accent1) !important; }
   cursor: pointer;
   display: block;
   color: #0b1220; /* make hamburger lines dark in light mode */
+  width: 40px; height: 40px;
 }
 
 /* Theme toggle button (icon only) */
@@ -1709,3 +1715,5 @@ html[data-theme="light"] .form input[type="time"]:focus::-webkit-datetime-edit,
 html[data-theme="light"] .form input[type="time"]:valid::-webkit-datetime-edit{ color: #000; }
 html[data-theme="light"] .form select:invalid{ color: #94a3b8 !important; }
 html[data-theme="light"] .form select:valid{ color: #000 !important; }
+.header-cta{ display: none; }
+@media (min-width: 768px){ .header-cta{ display: inline-block; } }

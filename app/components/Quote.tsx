@@ -72,7 +72,7 @@ export default function Quote() {
       <h2 className="section__title">Pricing &amp; Free Quote</h2>
 
       <form className="form" onSubmit={onSubmit} aria-describedby={`${formId}-status`}>
-        <div className="grid" style={{ gap: '1rem' }}>
+        <div className="grid quote-grid">
           <label className="field">
             <span>Name</span>
             <input
