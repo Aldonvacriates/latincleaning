@@ -30,6 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="icon" href="/Favicon.png" />
         <link rel="alternate icon" href="/favicon.svg" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#a8cde7" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1220" />
       </head>
       <body className={montserrat.className}>
         <Header />

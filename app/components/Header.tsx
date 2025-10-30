@@ -33,6 +33,8 @@ export default function Header() {
   const navRef = useRef<HTMLElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const startYRef = useRef<number | null>(null);
+  const startXRef = useRef<number | null>(null);
+  const orientRef = useRef<null | 'x' | 'y'>(null);
   const draggingRef = useRef(false);
 
   const setOpenSafe = useCallback((next: boolean) => {
@@ -155,38 +157,63 @@ export default function Header() {
         onTouchStart={(e) => {
           if (!open) return;
           if (e.touches.length !== 1) return;
-          startYRef.current = e.touches[0].clientY;
+          const t = e.touches[0];
+          startYRef.current = t.clientY;
+          startXRef.current = t.clientX;
+          orientRef.current = null;
           draggingRef.current = true;
+          // Reset any previous drag amounts
+          navRef.current?.style.setProperty('--nav-shift', '0px');
+          navRef.current?.style.setProperty('--nav-shift-x', '0px');
         }}
         onTouchMove={(e) => {
           if (!open || !draggingRef.current) return;
-          // Prevent underlying page scroll while dragging the sheet
-          try { e.preventDefault(); } catch {}
-          const startY = startYRef.current;
-          if (startY == null) return;
-          const currentY = e.touches[0].clientY;
-          const dy = Math.min(0, currentY - startY); // up is negative
-          // limit drag to -75% of viewport height
-          const min = -Math.floor(window.innerHeight * 0.75);
-          const shift = Math.max(dy, min);
-          navRef.current?.style.setProperty('--nav-shift', `${shift}px`);
+          if (e.touches.length !== 1) return;
+          const t = e.touches[0];
+          const sx = startXRef.current;
+          const sy = startYRef.current;
+          if (sx == null || sy == null) return;
+          const dx = t.clientX - sx;
+          const dy = t.clientY - sy;
+          if (orientRef.current == null) {
+            const adx = Math.abs(dx), ady = Math.abs(dy);
+            if (adx < 6 && ady < 6) return; // wait for intent
+            orientRef.current = adx > ady ? 'x' : 'y';
+          }
+          if (orientRef.current === 'x') {
+            // horizontal drag to close
+            try { e.preventDefault(); } catch {}
+            const max = Math.floor(window.innerWidth * 0.75);
+            const clamped = Math.max(-max, Math.min(dx, max));
+            navRef.current?.style.setProperty('--nav-shift-x', `${clamped}px`);
+          }
         }}
         onTouchEnd={() => {
           if (!open) return;
-          const val = navRef.current?.style.getPropertyValue('--nav-shift') || '0';
-          const shift = parseInt(val, 10) || 0;
+          const valx = navRef.current?.style.getPropertyValue('--nav-shift-x') || '0';
+          const shiftX = parseInt(valx, 10) || 0;
           draggingRef.current = false;
           startYRef.current = null;
-          if (Math.abs(shift) > 80) {
-            // Close menu with a tiny deferral to allow CSS transition
+          startXRef.current = null;
+          const threshold = Math.max(80, Math.min(120, Math.round(window.innerWidth * 0.2)));
+          if (Math.abs(shiftX) > threshold) {
             requestAnimationFrame(() => {
-              navRef.current?.style.setProperty('--nav-shift', '0px');
+              navRef.current?.style.setProperty('--nav-shift-x', '0px');
               setOpenSafe(false);
             });
           } else {
-            // Snap back
-            navRef.current?.style.setProperty('--nav-shift', '0px');
+            // Snap back smoothly
+            navRef.current?.style.setProperty('--nav-shift-x', '0px');
           }
+          orientRef.current = null;
+        }}
+        onTouchCancel={() => {
+          if (!open) return;
+          draggingRef.current = false;
+          startYRef.current = null;
+          startXRef.current = null;
+          navRef.current?.style.setProperty('--nav-shift-x', '0px');
+          orientRef.current = null;
         }}
       >
         <a href="#services">Services</a>

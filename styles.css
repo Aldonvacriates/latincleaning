@@ -11,6 +11,17 @@
   --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
+/* System dark mode variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #0b1220;                 /* deep navy background */
+    --navy: #e6edf3;                    /* light foreground text */
+    --light-gray: rgba(248, 250, 252, 0.14);
+    --shadow: 0 1px 0 rgba(248,250,252,0.06), 0 6px 22px rgba(2,6,23,0.6);
+    --shadow-hover: 0 1px 0 rgba(248,250,252,0.08), 0 10px 28px rgba(2,6,23,0.7);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -138,6 +149,14 @@ body.is-locked {
   box-shadow: var(--shadow);
 }
 
+@media (prefers-color-scheme: dark) {
+  .site-header {
+    background: rgba(2, 6, 23, 0.74);
+    box-shadow: var(--shadow);
+  }
+  .brand, .nav a { color: var(--navy); }
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -203,6 +222,9 @@ body.is-locked {
   pointer-events: none;
   transition: opacity .28s ease-out;
 }
+@media (prefers-color-scheme: dark) {
+  .mobile-backdrop { background: rgba(2, 6, 23, 0.6); }
+}
 .mobile-backdrop[data-open="true"] {
   opacity: 1;
   pointer-events: auto;
@@ -234,8 +256,14 @@ body.is-locked {
   transition: transform .38s cubic-bezier(0.16, 1, 0.3, 1), opacity .3s ease-out;
 }
 
+@media (prefers-color-scheme: dark) {
+  .mobile-nav { background: rgba(10, 15, 25, 0.95); }
+  .mobile-nav a { color: #e6edf3; }
+}
+
 .mobile-nav[data-open="true"] {
-  transform: translateY(calc(var(--nav-shift, 0px)));
+  /* Compose both axes when open; defaults to 0 */
+  transform: translate(var(--nav-shift-x, 0px), var(--nav-shift, 0px));
   opacity: 1;
 }
 
@@ -308,6 +336,15 @@ body.is-locked {
 
 .btn--ghost:hover {
   background: rgba(255, 255, 255, 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn--ghost {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(248,250,252,0.22);
+    color: #f1f5f9;
+  }
+  .btn--ghost:hover { background: rgba(15, 23, 42, 0.8); }
 }
 
 .btn--primary {
@@ -1184,6 +1221,10 @@ section[id] {
   max-width: 72ch;
 }
 
+@media (prefers-color-scheme: dark) {
+  .hero--rose .hero__content{ color: var(--navy); }
+}
+
 /* Background image */
 .hero__bg{ position:absolute; inset:0; z-index:0; }
 .hero__bg img{
@@ -1218,6 +1259,21 @@ section[id] {
       rgba(255, 192, 203, 0) 100%);
 }
 
+@media (prefers-color-scheme: dark) {
+  .hero__overlay{
+    background:
+      linear-gradient(90deg,
+        rgba(10, 15, 25, .88) 0%,
+        rgba(10, 15, 25, .72) 30%,
+        rgba(10, 15, 25, .48) 60%,
+        rgba(10, 15, 25, .20) 100%),
+      radial-gradient(1200px 700px at 18% 68%,
+        rgba(14, 22, 40, .35) 0%,
+        rgba(14, 22, 40, .18) 60%,
+        rgba(14, 22, 40, 0) 100%);
+  }
+}
+
 /* Legibility panel behind text */
 .hero__panel{
   background: rgba(255,255,255,.60);
@@ -1228,11 +1284,24 @@ section[id] {
   padding: clamp(14px, 2.4vw, 22px) clamp(16px, 3vw, 28px);
 }
 
+@media (prefers-color-scheme: dark) {
+  .hero__panel{
+    background: rgba(10, 15, 25, .58);
+    border-color: rgba(248, 250, 252, .10);
+    box-shadow: 0 12px 30px rgba(2,6,23,.55);
+    color: var(--navy);
+  }
+}
+
 /* Headline pop */
 .hero--rose h1{
   font-weight: 700;
   letter-spacing: -0.01em;
   text-shadow: 0 1px 0 rgba(255,255,255,.7); /* subtle light edge so dark text stands out */
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero--rose h1{ text-shadow: none; }
 }
 
 /* New highlight color (sunrise peach->lemon) */
@@ -1259,6 +1328,15 @@ section[id] {
 .hero--rose .btn--ghost:hover{ background: #fff; }
 .hero--rose .btn--cta{ box-shadow: 0 12px 28px rgba(255,105,180,.28); }
 
+@media (prefers-color-scheme: dark) {
+  .hero--rose .btn--ghost{
+    background: rgba(15,23,42,.64);
+    border-color: rgba(248,250,252,.22);
+    color: #e6edf3;
+  }
+  .hero--rose .btn--ghost:hover{ background: rgba(15,23,42,.8); }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .hero__bg img, .highlight--sunrise{ animation: none !important; transform: none !important; }
@@ -1267,13 +1345,13 @@ section[id] {
 /* --- Mobile nav drag-to-close support --- */
 /* Ensure the open state composes with a drag shift (set from JS) */
 .mobile-nav[data-open="true"]{
-  /* Fallback for older browsers */
-  transform: translateY(var(--nav-shift, 0px));
-  /* Newer transform property to compose with existing transform pipeline */
-  translate: 0 var(--nav-shift, 0px);
+  /* Fallback for older browsers: use combined translate */
+  transform: translate(var(--nav-shift-x, 0px), var(--nav-shift, 0px));
+  /* Individual transform property for modern browsers */
+  translate: var(--nav-shift-x, 0px) var(--nav-shift, 0px);
   will-change: transform;
-  transition: transform 160ms ease-out;
-  touch-action: none; /* allow custom gesture handling without browser scroll */
+  transition: transform 160ms ease-out, translate 160ms ease-out;
+  touch-action: pan-y; /* allow vertical scroll; we handle horizontal */
   overscroll-behavior: contain;
 }
 
