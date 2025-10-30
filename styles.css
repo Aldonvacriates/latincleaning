@@ -1463,7 +1463,7 @@ section[id] {
   transform: translateY(var(--nav-shift, 0px));
   will-change: transform;
   transition: transform 160ms ease-out;
-  touch-action: none; /* allow custom vertical gesture handling */
+  touch-action: pan-y; /* allow vertical scrolling inside menu */
   overscroll-behavior: contain;
 }
 .mobile-nav[data-open="true"][data-dragging="true"]{ transition: none; }

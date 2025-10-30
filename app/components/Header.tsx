@@ -40,6 +40,7 @@ export default function Header() {
   const lastTsRef = useRef<number | null>(null);
   const lastVyRef = useRef<number>(0);
   const draggingRef = useRef(false);
+  const canDragRef = useRef(false);
 
   const setOpenSafe = useCallback((next: boolean) => {
     setOpen((prev) => {
@@ -170,13 +171,15 @@ export default function Header() {
           lastTsRef.current = performance.now();
           lastVyRef.current = 0;
           orientRef.current = null;
-          draggingRef.current = true;
+          // Only enable drag-to-close when starting near the top edge
+          canDragRef.current = t.clientY <= 80;
+          draggingRef.current = canDragRef.current;
           // Reset any previous drag amounts
           navRef.current?.style.setProperty('--nav-shift', '0px');
-          navRef.current?.setAttribute('data-dragging', 'true');
+          if (canDragRef.current) navRef.current?.setAttribute('data-dragging', 'true');
         }}
         onTouchMove={(e) => {
-          if (!open || !draggingRef.current) return;
+          if (!open || !draggingRef.current || !canDragRef.current) return;
           if (e.touches.length !== 1) return;
           const t = e.touches[0];
           const sx = startXRef.current;
@@ -190,9 +193,9 @@ export default function Header() {
             orientRef.current = adx > ady ? 'x' : 'y';
           }
           if (orientRef.current === 'y') {
-            // vertical drag to close (swipe up)
+            // vertical drag to close (swipe up from top edge)
             try { e.preventDefault(); } catch {}
-            const deltaY = Math.min(0, dy); // only allow dragging upward
+            const deltaY = Math.min(0, dy); // up is negative
             const min = -Math.floor(window.innerHeight * 0.85);
             const shift = Math.max(deltaY, min);
             navRef.current?.style.setProperty('--nav-shift', `${shift}px`);
@@ -212,6 +215,7 @@ export default function Header() {
           const valy = navRef.current?.style.getPropertyValue('--nav-shift') || '0';
           const shiftY = parseInt(valy, 10) || 0;
           draggingRef.current = false;
+          canDragRef.current = false;
           startYRef.current = null;
           startXRef.current = null;
           const vy = lastVyRef.current; // px/ms
@@ -243,6 +247,7 @@ export default function Header() {
         onTouchCancel={() => {
           if (!open) return;
           draggingRef.current = false;
+          canDragRef.current = false;
           startYRef.current = null;
           startXRef.current = null;
           navRef.current?.style.setProperty('--nav-shift', '0px');
