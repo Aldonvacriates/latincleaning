@@ -1,15 +1,18 @@
+"use client";
 import MapEmbed from "./MapEmbed";
+import { useI18n } from "./I18nProvider";
 
 export default function FindUs() {
+  const { t } = useI18n();
   return (
     <section id="findus" className="section reveal findus">
-      <h2 className="section__title">Find Us</h2>
+      <h2 className="section__title">{t('findus.title')}</h2>
       <p className="section__lead">We proudly serve Park City, Utah and nearby areas.</p>
 
       <div className="findus__card">
         <div className="grid findus__grid">
           <div className="findus__info">
-            <h3 className="findus__heading">Service Area</h3>
+            <h3 className="findus__heading">{t('findus.serviceArea')}</h3>
             <ul className="chips chips--fancy" aria-label="Areas we commonly serve">
               <li className="chip">Park City</li>
               <li className="chip">Deer Valley</li>
@@ -20,7 +23,7 @@ export default function FindUs() {
               <li className="chip">Heber City</li>
               <li className="chip">Midway</li>
             </ul>
-            <p className="chips__note" aria-label="Nearby areas note">…and more nearby areas too!</p>
+            <p className="chips__note" aria-label="Nearby areas note">{t('findus.more')}</p>
 
             <ul className="findus__meta" aria-label="Contact details">
               <li className="findus__item">
@@ -31,7 +34,7 @@ export default function FindUs() {
                   </svg>
                 </span>
                 <div>
-              <div className="findus__label">Address</div>
+                  <div className="findus__label">{t('findus.address')}</div>
                   <div className="findus__city">Park City, Utah, USA</div>
                 </div>
               </li>
@@ -42,7 +45,7 @@ export default function FindUs() {
                   </svg>
                 </span>
                 <div>
-                  <div className="findus__label">Phone</div>
+                  <div className="findus__label">{t('findus.phone')}</div>
                   <div><a href="tel:+18018606299">(801) 860-6299</a></div>
                 </div>
               </li>
@@ -54,15 +57,15 @@ export default function FindUs() {
                   </svg>
                 </span>
                 <div>
-                  <div className="findus__label">Email</div>
+                  <div className="findus__label">{t('findus.email')}</div>
                   <div><a href="mailto:hello@latinclean.online">hello@latinclean.online</a></div>
                 </div>
               </li>
             </ul>
 
             <div className="findus__actions">
-              <a className="btn btn--pink btn--half" href="tel:+18018606299">Call Us</a>
-              <a className="btn btn--pink btn--half" href="mailto:hello@latinclean.online">Email Us</a>
+              <a className="btn btn--pink btn--half" href="tel:+18018606299">{t('findus.call')}</a>
+              <a className="btn btn--pink btn--half" href="mailto:hello@latinclean.online">{t('findus.mail')}</a>
               <a
                 className="btn btn--pink btn--full"
                 href="https://www.google.com/maps/search/?api=1&query=Park+City%2C+UT"
@@ -70,7 +73,7 @@ export default function FindUs() {
                 rel="noopener"
                 aria-label="Open Park City, Utah in Google Maps (opens in new tab)"
               >
-                Open in Google Maps
+                {t('findus.maps')}
               </a>
             </div>
           </div>

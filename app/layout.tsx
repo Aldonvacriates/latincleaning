@@ -17,6 +17,7 @@ import CookieBanner from './components/CookieBanner';
 import RevealProvider from './components/RevealProvider';
 import AnalyticsConsent from './components/AnalyticsConsent';
 import SmoothScrollProvider from './components/SmoothScrollProvider';
+import I18nProvider from './components/I18nProvider';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -35,13 +36,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1220" />
       </head>
       <body className={montserrat.className}>
-        <Header />
-        <SmoothScrollProvider />
-        <RevealProvider />
-        {children}
-        <CookieBanner />
-        <AnalyticsConsent />
-        <Footer />
+        <I18nProvider>
+          <Header />
+          <SmoothScrollProvider />
+          <RevealProvider />
+          {children}
+          <CookieBanner />
+          <AnalyticsConsent />
+          <Footer />
+        </I18nProvider>
       </body>
     </html>
   );

@@ -1,13 +1,16 @@
+"use client";
 import Image from "next/image";
 import ManageCookiesLink from "./ManageCookiesLink";
+import { useI18n } from "./I18nProvider";
 
 export default function Footer() {
+  const { t } = useI18n();
   const year = new Date().getFullYear();
   return (
     <footer className="site-footer">
       <div className="footer__grid">
         <div>
-          <h4>Contact</h4>
+          <h4>{t('footer.contact')}</h4>
           <ul>
             <li><a href="tel:+18018606299">Phone: (801) 860-5172</a></li>
             <li>
@@ -26,13 +29,13 @@ export default function Footer() {
           </ul>
         </div>
         <div>
-          <h4>Quick Links</h4>
+          <h4>{t('footer.quick')}</h4>
           <ul>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="#services">{t('nav.services')}</a></li>
+            <li><a href="#about">{t('nav.about')}</a></li>
+            <li><a href="/privacy">{t('footer.privacy')}</a></li>
             <li>
-              <a href="https://instagram.com/Latin_cleaning0" target="_blank" rel="noopener">Instagram</a>
+              <a href="https://instagram.com/Latin_cleaning0" target="_blank" rel="noopener">{t('nav.instagram')}</a>
             </li>
             <li>
               <ManageCookiesLink />

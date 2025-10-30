@@ -219,7 +219,7 @@ body.is-locked {
   min-width: 0;
 }
 
-@media (min-width: 1220px) {
+@media (min-width: 1300px) {
   .nav {
     display: flex;
     flex: 1 1 auto;
@@ -283,9 +283,26 @@ html[data-theme="dark"] .mobile-nav a:hover{ color: var(--accent1) !important; }
 /* Show theme toggle at all sizes */
 .theme-toggle{ display: inline-flex; }
 
+/* Language toggle (ES/EN) */
+.lang-toggle{
+  background: transparent;
+  border: 1px solid var(--light-gray);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-left: 6px;
+  color: var(--navy);
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+.lang-toggle:hover{ filter: brightness(1.08); }
+
 /* (mobile-theme styles removed; toggle no longer in sheet) */
 
-@media (min-width: 1220px) {
+@media (min-width: 1300px) {
   .menu-toggle {
     display: none;
   }
@@ -1807,7 +1824,8 @@ html[data-theme="light"] .form select:valid{ color: #000 !important; }
 }
 
 /* Ensure toggle sits to the right of the CTA */
-.site-header .theme-toggle{ order: 6; margin-left: 8px; }
+.site-header .lang-toggle{ order: 6; margin-left: 8px; }
+.site-header .theme-toggle{ order: 7; margin-left: 8px; }
 /* Keep other header children ahead of CTA */
 .site-header .brand{ order: 1; }
 .site-header .menu-toggle{ order: 2; }

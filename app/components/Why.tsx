@@ -1,7 +1,11 @@
+"use client";
+import { useI18n } from "./I18nProvider";
+
 export default function Why() {
+  const { t } = useI18n();
   return (
     <section id="why" className="section section--tint reveal">
-      <h2 className="section__title">Why Choose Latin Cleaning?</h2>
+      <h2 className="section__title">{t('why.title')}</h2>
       <div className="grid features-grid">
         <article className="card feature">
           <div className="icon-container" aria-hidden="true">
@@ -10,8 +14,8 @@ export default function Why() {
               <path d="M12 8v4l3 3"></path>
             </svg>
           </div>
-          <h3>Background-Checked Staff</h3>
-          <p>Trained professionals you can trust in your space.</p>
+          <h3>{t('why.f1.t')}</h3>
+          <p>{t('why.f1.d')}</p>
         </article>
         <article className="card feature">
           <div className="icon-container" aria-hidden="true">
@@ -22,8 +26,8 @@ export default function Why() {
               <line x1="10" y1="12" x2="10" y2="18"></line>
             </svg>
           </div>
-          <h3>Eco-friendly Products</h3>
-          <p>We use safe, effective products for your family and pets.</p>
+          <h3>{t('why.f2.t')}</h3>
+          <p>{t('why.f2.d')}</p>
         </article>
         <article className="card feature">
           <div className="icon-container" aria-hidden="true">
@@ -34,8 +38,8 @@ export default function Why() {
               <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
           </div>
-          <h3>Flexible Scheduling</h3>
-          <p>Book one-time or recurring plans to fit your lifestyle.</p>
+          <h3>{t('why.f3.t')}</h3>
+          <p>{t('why.f3.d')}</p>
         </article>
         <article className="card feature">
           <div className="icon-container" aria-hidden="true">
@@ -43,8 +47,8 @@ export default function Why() {
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
           </div>
-          <h3>Satisfaction Guarantee</h3>
-          <p>If something&apos;s not perfect, we&apos;ll make it right.</p>
+          <h3>{t('why.f4.t')}</h3>
+          <p>{t('why.f4.d')}</p>
         </article>
       </div>
     </section>

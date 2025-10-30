@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
+import LanguageToggle from "./LanguageToggle";
+import { useI18n } from "./I18nProvider";
 
 function lockBodyScroll(lock: boolean) {
   const html = document.documentElement;
@@ -30,6 +32,7 @@ function lockBodyScroll(lock: boolean) {
 }
 
 export default function Header() {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
@@ -110,14 +113,15 @@ export default function Header() {
         </button>
 
         <ThemeToggle />
+        <LanguageToggle />
 
         <nav className="nav">
-          <a href="#services">Services</a>
-          <a href="#why">Why Us</a>
-          <a href="#testimonials">Testimonials</a>
-          <a href="#about">About</a>
-          <a href="#findus">Find Us</a>
-          <a href="#quote">Pricing &amp; Quote</a>
+          <a href="#services">{t('nav.services')}</a>
+          <a href="#why">{t('nav.why')}</a>
+          <a href="#testimonials">{t('nav.testimonials')}</a>
+          <a href="#about">{t('nav.about')}</a>
+          <a href="#findus">{t('nav.findus')}</a>
+          <a href="#quote">{t('nav.quote')}</a>
           <a href="https://sites.google.com/view/latincleaning/home">Google</a>
           <a href="https://www.instagram.com/latinclean/" target="_blank" rel="noopener" aria-label="Instagram (opens in new tab)">
             <svg
@@ -138,11 +142,11 @@ export default function Header() {
               <circle cx="12" cy="12" r="3"></circle>
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
-            Instagram
+            {t('nav.instagram')}
           </a>
         </nav>
 
-        <a className="btn btn--cta header-cta" href="#quote">Book Now</a>
+        <a className="btn btn--cta header-cta" href="#quote">{t('cta.book')}</a>
       </header>
 
       {/* Backdrop behind the mobile nav; clicking closes the menu */}
@@ -250,12 +254,12 @@ export default function Header() {
           orientRef.current = null;
         }}
       >
-        <a href="#services">Services</a>
-        <a href="#why">Why Us</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#about">About</a>
-        <a href="#findus">Find Us</a>
-        <a href="#quote">Pricing &amp; Quote</a>
+        <a href="#services">{t('nav.services')}</a>
+        <a href="#why">{t('nav.why')}</a>
+        <a href="#testimonials">{t('nav.testimonials')}</a>
+        <a href="#about">{t('nav.about')}</a>
+        <a href="#findus">{t('nav.findus')}</a>
+        <a href="#quote">{t('nav.quote')}</a>
         <a href="https://sites.google.com/view/latincleaning/home">Google</a>
         <a href="https://www.instagram.com/latinclean/" target="_blank" rel="noopener" aria-label="Instagram (opens in new tab)">
           <svg
@@ -276,7 +280,7 @@ export default function Header() {
             <circle cx="12" cy="12" r="3"></circle>
             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
           </svg>
-          Instagram
+          {t('nav.instagram')}
         </a>
 
         {/* (toggle removed from mobile sheet as requested) */}

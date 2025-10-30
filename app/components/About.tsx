@@ -1,20 +1,19 @@
+"use client";
 import Image from "next/image";
+import { useI18n } from "./I18nProvider";
 
 export default function About() {
+  const { t } = useI18n();
   return (
     <section id="about" className="section reveal">
-      <h2 className="section__title">About Us</h2>
+      <h2 className="section__title">{t('about.title')}</h2>
       <div className="about">
         <div>
           <p>
-            Latin Cleaning provides reliable, eco‑friendly residential and commercial cleaning
-            in Park City and nearby areas. We’re a bilingual team focused on quality,
-            safety, and flexibility — from one‑time deep cleans to recurring service.
+            {/* Keep brief generic copy; could be localized further if needed */}
+            {t('why.title')}
           </p>
-          <p>
-            We bring our own supplies, follow your preferences, and stand behind our work
-            with a satisfaction guarantee.
-          </p>
+          <p>{t('hero.sub')}</p>
           <ul className="about__list">
             <li>Licensed and insured professionals</li>
             <li>Pet‑safe and kid‑safe products</li>

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "./I18nProvider";
 import heroImg from "../../public/hero.jpg";
 
 /** Small hook: are we (at least partially) in view? */
@@ -64,6 +65,7 @@ function useHeroReveal(ready: boolean, gate: boolean) {
 }
 
 export default function Hero() {
+  const { t } = useI18n();
   const [imgReady, setImgReady] = useState(false);
   const { ref, inView } = useInView<HTMLElement>("0px 0px -20% 0px", 0.05);
   const show = useHeroReveal(imgReady, inView);
@@ -95,28 +97,22 @@ export default function Hero() {
       <div className="hero__content">
         <div className="hero__panel">
           <h1>
-            Professional Cleaning Services for{" "}
+            {t('hero.title.pre')}{" "}
             <span className="highlight highlight--sunrise">
-              Homes &amp; Offices
+              {t('hero.title.hl')}
             </span>
           </h1>
-          <p className="subhead">
-            Reliable, eco-friendly, and affordable cleaning you can trust.
-          </p>
+          <p className="subhead">{t('hero.sub')}</p>
 
           <div className="hero__cta">
-            <a href="#quote" className="btn btn--cta">
-              Get a Free Quote
-            </a>
-            <a href="tel:+18018606299" className="btn btn--ghost">
-              Call (801) 860-6299
-            </a>
+            <a href="#quote" className="btn btn--cta">{t('hero.cta.quote')}</a>
+            <a href="tel:+18018606299" className="btn btn--ghost">{t('hero.cta.call')}</a>
           </div>
 
           <ul className="hero__details">
-            <li>24/7 Emergency or scheduled</li>
-            <li>Bilingual support (English &amp; Español)</li>
-            <li>One-time, weekly, bi-weekly, or monthly!</li>
+            <li>{t('hero.d1')}</li>
+            <li>{t('hero.d2')}</li>
+            <li>{t('hero.d3')}</li>
           </ul>
         </div>
       </div>

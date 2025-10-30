@@ -1,5 +1,6 @@
 "use client";
 import { useId, useState } from "react";
+import { useI18n } from "./I18nProvider";
 import { useRouter } from "next/navigation";
 
 type FormState = {
@@ -23,6 +24,7 @@ const initial: FormState = {
 };
 
 export default function Quote() {
+  const { t } = useI18n();
   const formId = useId();
   const router = useRouter();
   const [data, setData] = useState<FormState>(initial);
@@ -69,16 +71,16 @@ export default function Quote() {
 
   return (
     <section id="quote" className="section reveal">
-      <h2 className="section__title">Pricing &amp; Free Quote</h2>
+      <h2 className="section__title">{t('quote.title')}</h2>
 
       <form className="form" onSubmit={onSubmit} aria-describedby={`${formId}-status`}>
         <div className="grid quote-grid">
           <label className="field">
-            <span>Name</span>
+            <span>{t('quote.name')}</span>
             <input
               type="text"
               name="name"
-              placeholder="Name"
+              placeholder={t('quote.name')}
               value={data.name}
               onChange={(e) => setField('name', e.target.value)}
               required
@@ -86,11 +88,11 @@ export default function Quote() {
             <span className="error" role="alert">{errors.name || ''}</span>
           </label>
           <label className="field">
-            <span>Email</span>
+            <span>{t('quote.email')}</span>
             <input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder={t('quote.email')}
               value={data.email}
               onChange={(e) => setField('email', e.target.value)}
               required
@@ -98,11 +100,11 @@ export default function Quote() {
             <span className="error" role="alert">{errors.email || ''}</span>
           </label>
           <label className="field">
-            <span>Phone</span>
+            <span>{t('quote.phone')}</span>
             <input
               type="tel"
               name="phone"
-              placeholder="Phone"
+              placeholder={t('quote.phone')}
               value={data.phone}
               onChange={(e) => setField('phone', e.target.value)}
               required
@@ -110,33 +112,33 @@ export default function Quote() {
             <span className="error" role="alert">{errors.phone || ''}</span>
           </label>
           <label className="field">
-            <span>Service Type</span>
+            <span>{t('quote.type')}</span>
             <select name="type" value={data.type} onChange={(e) => setField('type', e.target.value)} required>
-              <option value="">Select…</option>
-              <option>Residential</option>
-              <option>Commercial</option>
-              <option>Deep Cleaning</option>
-              <option>Move-in/Move-out</option>
-              <option>Carpet &amp; Upholstery</option>
+              <option value="">{t('quote.select')}</option>
+              <option>{t('quote.residential')}</option>
+              <option>{t('quote.commercial')}</option>
+              <option>{t('quote.deep')}</option>
+              <option>{t('quote.move')}</option>
+              <option>{t('quote.carpet')}</option>
             </select>
             <span className="error" role="alert">{errors.type || ''}</span>
           </label>
           <label className="field">
-            <span>Preferred Date</span>
+            <span>{t('quote.date')}</span>
             <input type="date" name="date" value={data.date} onChange={(e) => setField('date', e.target.value)} required />
             <span className="error" role="alert">{errors.date || ''}</span>
           </label>
           <label className="field">
-            <span>Preferred Time</span>
+            <span>{t('quote.time')}</span>
             <input type="time" name="time" value={data.time} onChange={(e) => setField('time', e.target.value)} required />
             <span className="error" role="alert">{errors.time || ''}</span>
           </label>
           <label className="field field--full">
-            <span>Details</span>
+            <span>{t('quote.details')}</span>
             <textarea
               name="message"
               rows={4}
-              placeholder="Details"
+              placeholder={t('quote.details')}
               value={data.message}
               onChange={(e) => setField('message', e.target.value)}
               required
@@ -146,7 +148,7 @@ export default function Quote() {
         </div>
 
         <button id="quoteSubmit" className="btn btn--primary" type="submit" disabled={status.kind === 'loading'} aria-busy={status.kind === 'loading'}>
-          {status.kind === 'loading' ? 'Sending…' : 'Request Quote'}
+          {status.kind === 'loading' ? 'Sending…' : t('quote.submit')}
         </button>
         <div id={`${formId}-status`} className={`form-status${status.kind === 'error' ? ' is-error' : status.kind === 'success' ? ' is-success' : ''}`} role="status" aria-live="polite">{status.msg}</div>
       </form>

@@ -1,9 +1,12 @@
+"use client";
 import Image from "next/image";
+import { useI18n } from "./I18nProvider";
 
 export default function Services() {
+  const { t } = useI18n();
   return (
     <section id="services" className="section">
-      <h2 className="section__title">Our Services</h2>
+      <h2 className="section__title">{t('services.title')}</h2>
       <p className="section__lead">
         From homes to offices and vacation rentals-we make every space shine.
       </p>
@@ -37,8 +40,8 @@ export default function Services() {
             <span className="media-gradient" aria-hidden="true"></span>
           </div>
           <div className="card__body">
-            <h3>Residential Cleaning</h3>
-            <p>Regular or deep cleans to keep your home fresh and healthy.</p>
+            <h3>{t('svc.res.title')}</h3>
+            <p>{t('svc.res.desc')}</p>
           </div>
         </article>
 
@@ -71,8 +74,8 @@ export default function Services() {
             <span className="media-gradient" aria-hidden="true"></span>
           </div>
           <div className="card__body">
-            <h3>Commercial Cleaning</h3>
-            <p>Reliable service for offices, shops, and shared workspaces.</p>
+            <h3>{t('svc.com.title')}</h3>
+            <p>{t('svc.com.desc')}</p>
           </div>
         </article>
 
@@ -102,8 +105,8 @@ export default function Services() {
             <span className="media-gradient" aria-hidden="true"></span>
           </div>
           <div className="card__body">
-            <h3>Deep Cleaning</h3>
-            <p>Top-to-bottom detailing for kitchens, bathrooms, and more.</p>
+            <h3>{t('svc.deep.title')}</h3>
+            <p>{t('svc.deep.desc')}</p>
           </div>
         </article>
 
@@ -134,8 +137,8 @@ export default function Services() {
             <span className="media-gradient" aria-hidden="true"></span>
           </div>
           <div className="card__body">
-            <h3>Move-in/Move-out</h3>
-            <p>Perfect finish for new tenants or smooth move-outs.</p>
+            <h3>{t('svc.move.title')}</h3>
+            <p>{t('svc.move.desc')}</p>
           </div>
         </article>
 
@@ -169,8 +172,8 @@ export default function Services() {
             <span className="media-gradient" aria-hidden="true"></span>
           </div>
           <div className="card__body">
-            <h3>Carpet &amp; Upholstery</h3>
-            <p>Refresh fabrics and remove stubborn stains and odors.</p>
+            <h3>{t('svc.carpet.title')}</h3>
+            <p>{t('svc.carpet.desc')}</p>
           </div>
         </article>
       </div>

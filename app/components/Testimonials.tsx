@@ -1,7 +1,11 @@
+"use client";
+import { useI18n } from "./I18nProvider";
+
 export default function Testimonials() {
+  const { t } = useI18n();
   return (
     <section id="testimonials" className="section reveal">
-      <h2 className="section__title">What Our Customers Say</h2>
+      <h2 className="section__title">{t('testimonials.title')}</h2>
       <div className="grid testimonials-grid">
         <figure className="card testimonial">
           <blockquote>
