@@ -49,6 +49,9 @@ body {
   /* Sticky header participates in layout; no global top padding needed */
   padding-top: 0;
 }
+/* Ensure media never overflows on small screens */
+img, video { max-width: 100%; height: auto; }
+svg { max-width: 100%; height: auto; }
 /* Improve native form control theming in both modes */
 body { color-scheme: light dark; }
 
@@ -1282,23 +1285,31 @@ section[id] {
 
 .cookie-banner {
   position: fixed;
-  left: 0; right: 0; bottom: 1rem;
+  left: 0; right: 0;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  padding-left: max(.75rem, env(safe-area-inset-left));
+  padding-right: max(.75rem, env(safe-area-inset-right));
   z-index: 9999;
+  pointer-events: none; /* allow clicks to pass through backdrop */
 }
 
 .cookie-banner__content {
+  width: min(100%, 920px);
   max-width: 920px;
   margin: 0 auto;
   display: grid;
   gap: .75rem 1rem;
   align-items: center;
 
-  padding: 1rem 1.25rem;
+  padding: clamp(.85rem, 2.8vw, 1rem) clamp(1rem, 3.2vw, 1.25rem);
   border-radius: 14px;
   background: rgba(15, 23, 42, 0.9);       /* slate-900ish */
   color: #fff;
   backdrop-filter: blur(8px);
   box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.05);
+  box-sizing: border-box;
+  pointer-events: auto; /* keep the banner itself clickable */
+  overflow-wrap: anywhere; /* keep long links/words from overflowing */
 }
 
 .cookie-banner__actions {
@@ -1320,6 +1331,25 @@ section[id] {
   .cookie-banner__content {
     grid-template-columns: 1fr auto;
   }
+}
+
+/* Tighter cookie layout on small screens */
+@media (max-width: 560px) {
+  .cookie-banner__content { gap: .6rem .75rem; }
+  .cookie-banner__content p { font-size: clamp(.92rem, 3.5vw, 1rem); margin: 0; }
+  .cookie-banner__actions { width: 100%; justify-content: stretch; }
+  .cookie-banner .btn { flex: 1 1 140px; min-width: 0; }
+}
+
+/* Very small screens: stack actions full width and allow internal scroll */
+@media (max-width: 400px) {
+  .cookie-banner__content { max-height: 46vh; overflow: auto; }
+  .cookie-banner .btn { flex-basis: 100%; }
+}
+
+/* Short viewports (landscape phones): limit banner height */
+@media (max-height: 520px) {
+  .cookie-banner__content { max-height: 50vh; overflow: auto; }
 }
 
 /* --- Service Cards with photos --- */
