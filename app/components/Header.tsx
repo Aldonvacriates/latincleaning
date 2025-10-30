@@ -32,6 +32,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
+  const startYRef = useRef<number | null>(null);
+  const draggingRef = useRef(false);
 
   const setOpenSafe = useCallback((next: boolean) => {
     setOpen((prev) => {
@@ -150,6 +152,42 @@ export default function Header() {
         aria-hidden={!open}
         aria-label="Mobile navigation"
         data-open={open}
+        onTouchStart={(e) => {
+          if (!open) return;
+          if (e.touches.length !== 1) return;
+          startYRef.current = e.touches[0].clientY;
+          draggingRef.current = true;
+        }}
+        onTouchMove={(e) => {
+          if (!open || !draggingRef.current) return;
+          // Prevent underlying page scroll while dragging the sheet
+          try { e.preventDefault(); } catch {}
+          const startY = startYRef.current;
+          if (startY == null) return;
+          const currentY = e.touches[0].clientY;
+          const dy = Math.min(0, currentY - startY); // up is negative
+          // limit drag to -75% of viewport height
+          const min = -Math.floor(window.innerHeight * 0.75);
+          const shift = Math.max(dy, min);
+          navRef.current?.style.setProperty('--nav-shift', `${shift}px`);
+        }}
+        onTouchEnd={() => {
+          if (!open) return;
+          const val = navRef.current?.style.getPropertyValue('--nav-shift') || '0';
+          const shift = parseInt(val, 10) || 0;
+          draggingRef.current = false;
+          startYRef.current = null;
+          if (Math.abs(shift) > 80) {
+            // Close menu with a tiny deferral to allow CSS transition
+            requestAnimationFrame(() => {
+              navRef.current?.style.setProperty('--nav-shift', '0px');
+              setOpenSafe(false);
+            });
+          } else {
+            // Snap back
+            navRef.current?.style.setProperty('--nav-shift', '0px');
+          }
+        }}
       >
         <a href="#services">Services</a>
         <a href="#why">Why Us</a>
