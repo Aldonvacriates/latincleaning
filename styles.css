@@ -217,6 +217,16 @@ body.is-locked {
   opacity: 1;
 }
 
+/* Dark mode: make nav items pink on active/hover */
+@media (prefers-color-scheme: dark){
+  .nav a.is-active, .nav a:hover { color: var(--accent1) !important; opacity: 1; }
+  .mobile-nav a.is-active, .mobile-nav a:hover { color: var(--accent1) !important; }
+}
+html[data-theme="dark"] .nav a.is-active,
+html[data-theme="dark"] .nav a:hover{ color: var(--accent1) !important; opacity: 1; }
+html[data-theme="dark"] .mobile-nav a.is-active,
+html[data-theme="dark"] .mobile-nav a:hover{ color: var(--accent1) !important; }
+
 /* Mobile navigation toggle */
 .menu-toggle {
   background: transparent;
@@ -240,15 +250,10 @@ body.is-locked {
   color: var(--navy);
 }
 .theme-toggle:hover{ filter: brightness(1.08); }
-@media (min-width: 768px){ .theme-toggle{ margin-left: 0; } }
+/* Show toggle on mobile only */
+@media (min-width: 768px){ .theme-toggle{ display: none; } }
 
-/* Theme control inside the mobile sheet */
-.mobile-theme{ margin-top: .5rem; }
-.mobile-theme .theme-toggle{
-  width: 44px; height: 44px;
-  border-color: var(--light-gray);
-  color: var(--navy);
-}
+/* (mobile-theme styles removed; toggle no longer in sheet) */
 
 @media (min-width: 768px) {
   .menu-toggle {

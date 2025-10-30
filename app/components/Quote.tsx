@@ -75,17 +75,38 @@ export default function Quote() {
         <div className="grid" style={{ gap: '1rem' }}>
           <label className="field">
             <span>Name</span>
-            <input type="text" name="name" value={data.name} onChange={(e) => setField('name', e.target.value)} required />
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={data.name}
+              onChange={(e) => setField('name', e.target.value)}
+              required
+            />
             <span className="error" role="alert">{errors.name || ''}</span>
           </label>
           <label className="field">
             <span>Email</span>
-            <input type="email" name="email" value={data.email} onChange={(e) => setField('email', e.target.value)} required />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={data.email}
+              onChange={(e) => setField('email', e.target.value)}
+              required
+            />
             <span className="error" role="alert">{errors.email || ''}</span>
           </label>
           <label className="field">
             <span>Phone</span>
-            <input type="tel" name="phone" value={data.phone} onChange={(e) => setField('phone', e.target.value)} required />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Phone"
+              value={data.phone}
+              onChange={(e) => setField('phone', e.target.value)}
+              required
+            />
             <span className="error" role="alert">{errors.phone || ''}</span>
           </label>
           <label className="field">
@@ -112,7 +133,14 @@ export default function Quote() {
           </label>
           <label className="field field--full">
             <span>Details</span>
-            <textarea name="message" rows={4} value={data.message} onChange={(e) => setField('message', e.target.value)} required />
+            <textarea
+              name="message"
+              rows={4}
+              placeholder="Details"
+              value={data.message}
+              onChange={(e) => setField('message', e.target.value)}
+              required
+            />
             <span className="error" role="alert">{errors.message || ''}</span>
           </label>
         </div>

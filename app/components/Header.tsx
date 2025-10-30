@@ -279,10 +279,7 @@ export default function Header() {
           Instagram
         </a>
 
-        {/* Theme toggle available inside the mobile sheet for convenience */}
-        <div className="mobile-theme">
-          <ThemeToggle />
-        </div>
+        {/* (toggle removed from mobile sheet as requested) */}
       </nav>
     </>
   );
