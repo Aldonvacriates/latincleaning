@@ -9,6 +9,14 @@
   --light-gray: rgba(2, 6, 23, 0.08);
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
   --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.05);
+  /* Stable header heights (no shift on hydration/resizes) */
+  --header-h-mobile: 56px;
+  --header-h-desktop: 68px;
+  --header-h: var(--header-h-mobile);
+  --header-height: var(--header-h);
+}
+@media (min-width: 768px){
+  :root{ --header-h: var(--header-h-desktop); }
 }
 
 /* System dark mode variables */
@@ -38,7 +46,8 @@ body {
   background: var(--primary);
   overflow-x: hidden;
   line-height: 1.5;
-  padding-top: var(--header-offset, 84px);
+  /* Offset main content by fixed header height + safe area */
+  padding-top: calc(var(--header-height) + env(safe-area-inset-top));
 }
 /* Improve native form control theming in both modes */
 body { color-scheme: light dark; }
@@ -141,26 +150,34 @@ body.is-locked {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: 0.85rem 1.5rem;
+  padding: 0 1.0rem;
+  padding-top: env(safe-area-inset-top); /* avoid iPhone notch */
+  height: calc(var(--header-height) + env(safe-area-inset-top));
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
   box-shadow: var(--shadow);
   border-bottom: 1px solid var(--light-gray);
   transition: background-color .25s ease, backdrop-filter .25s ease, box-shadow .25s ease, border-color .25s ease;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100vw;              /* prevent right-side clipping on iOS */
+  transform: translateZ(0);       /* stabilize compositing for backdrop-filter */
 }
 @media (max-width: 600px){
-  .site-header{ padding: 0.7rem 0.9rem; gap: .75rem; }
+  .site-header{ padding: 0 0.9rem; gap: .75rem; }
 }
 
 /* When scrolled, header becomes more clear (more transparent), keeping blur */
 .site-header.is-scrolled{
   background: rgba(255, 255, 255, 0.60);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 2px 10px rgba(2,6,23,0.06);
 }
 
@@ -181,6 +198,8 @@ body.is-locked {
   text-decoration: none;
   color: var(--navy);
   font-weight: 700;
+  min-width: 0;
+  flex: 0 1 auto;
 }
 .brand__text{ display: none; }
 @media (min-width: 520px){ .brand__text{ display: inline; } }
@@ -197,11 +216,14 @@ body.is-locked {
 .nav {
   display: none;
   gap: 1.2rem;
+  min-width: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1220px) {
   .nav {
     display: flex;
+    flex: 1 1 auto;
+    justify-content: flex-end;
   }
 }
 
@@ -240,6 +262,7 @@ html[data-theme="dark"] .mobile-nav a:hover{ color: var(--accent1) !important; }
   display: block;
   color: #0b1220; /* make hamburger lines dark in light mode */
   width: 40px; height: 40px;
+  flex: 0 0 auto;
 }
 
 /* Theme toggle button (icon only) */
@@ -254,14 +277,15 @@ html[data-theme="dark"] .mobile-nav a:hover{ color: var(--accent1) !important; }
   height: 36px;
   margin-left: 6px;
   color: var(--navy);
+  flex: 0 0 auto;
 }
 .theme-toggle:hover{ filter: brightness(1.08); }
-/* Show toggle on mobile only */
-@media (min-width: 768px){ .theme-toggle{ display: none; } }
+/* Show theme toggle at all sizes */
+.theme-toggle{ display: inline-flex; }
 
 /* (mobile-theme styles removed; toggle no longer in sheet) */
 
-@media (min-width: 768px) {
+@media (min-width: 1220px) {
   .menu-toggle {
     display: none;
   }
@@ -301,6 +325,7 @@ html[data-theme="dark"] .menu-toggle{ color: var(--navy); }
   height: 100dvh; /* fit visible viewport on mobile */
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   z-index: 40;
   display: flex;
   flex-direction: column;
@@ -311,6 +336,7 @@ html[data-theme="dark"] .menu-toggle{ color: var(--navy); }
   overflow-x: hidden;
   overscroll-behavior: contain; /* avoid rubberband scrolling content behind */
   touch-action: auto;
+  padding-top: calc(env(safe-area-inset-top) + 8px);
   padding-bottom: env(safe-area-inset-bottom);
   transform: translateY(-100%);
   opacity: 0;
@@ -641,6 +667,17 @@ section[id] {
 }
 
 /* testimonials */
+.grid.testimonials-grid{
+  /* Responsive, centered cards with a firm minimum width */
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  justify-content: center;
+  justify-items: center;
+}
+/* Keep the testimonials strip from stretching too wide on large screens */
+#testimonials .grid.testimonials-grid{
+  max-width: 900px;
+  margin-inline: auto;
+}
 .testimonial blockquote {
   margin: 0 0 0.6rem;
 }
@@ -648,6 +685,26 @@ section[id] {
 .stars {
   color: var(--accent3);
   letter-spacing: 2px;
+}
+
+/* Limit individual testimonial card width for nicer centering */
+.testimonial{
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(2, 6, 23, 0.07);
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.testimonial:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(2, 6, 23, 0.12);
+  border-color: rgba(2, 6, 23, 0.12);
 }
 
 /* before/after */
@@ -1057,6 +1114,23 @@ section[id] {
   background: var(--accent1);
   box-shadow: 0 0 0 3px rgba(244, 143, 177, .18);
 }
+
+/* Ultra-small devices (<= 272px wide): tighten Find Us layout only */
+@media (max-width: 272px){
+  .findus__card{ padding: .6rem; border-radius: 14px; }
+  .findus__grid{ gap: .4rem; }
+  .findus__meta{ padding: .4rem; }
+  .findus__item{ grid-template-columns: 28px 1fr; gap: .4rem; padding: .35rem .3rem; }
+  .findus__icon{ width: 28px; height: 28px; border-radius: 8px; }
+  .findus__label{ font-size: .88rem; }
+  .chips{ gap: .35rem; }
+  .chip{ font-size: .8rem; padding: .3rem .6rem .3rem 1rem; }
+  .chips--fancy .chip::before{ left: .4rem; width: .36rem; height: .36rem; box-shadow: 0 0 0 2px rgba(244,143,177,.18); }
+  .findus__actions{ grid-template-columns: 1fr; }
+  .findus__actions .btn--half{ grid-column: 1 / -1; }
+  .findus__actions .btn{ padding: .6rem .8rem; font-size: .9rem; }
+  .findus__meta a{ overflow-wrap: anywhere; }
+}
 .chips__note {
   margin-top: .25rem;
   color: #475569;
@@ -1463,7 +1537,7 @@ section[id] {
   transform: translateY(var(--nav-shift, 0px));
   will-change: transform;
   transition: transform 160ms ease-out;
-  touch-action: pan-y; /* allow vertical scrolling inside menu */
+  touch-action: none; /* allow custom vertical gesture handling */
   overscroll-behavior: contain;
 }
 .mobile-nav[data-open="true"][data-dragging="true"]{ transition: none; }
@@ -1715,5 +1789,26 @@ html[data-theme="light"] .form input[type="time"]:focus::-webkit-datetime-edit,
 html[data-theme="light"] .form input[type="time"]:valid::-webkit-datetime-edit{ color: #000; }
 html[data-theme="light"] .form select:invalid{ color: #94a3b8 !important; }
 html[data-theme="light"] .form select:valid{ color: #000 !important; }
-.header-cta{ display: none; }
-@media (min-width: 768px){ .header-cta{ display: inline-block; } }
+/* Show Book Now on small/medium screens; hide on very large screens */
+.header-cta{ display: inline-block; }
+/* Make the header CTA more compact but still tappable */
+.site-header .header-cta{
+  font-size: 0.85rem;
+  padding: 0.45rem 0.85rem;
+  line-height: 1.1;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  margin-left: auto; /* push CTA (and following toggle) to the right */
+  order: 5;
+}
+@media (max-width: 390px){
+  .site-header .header-cta{ font-size: 0.8rem; padding: 0.4rem 0.7rem; }
+}
+
+/* Ensure toggle sits to the right of the CTA */
+.site-header .theme-toggle{ order: 6; margin-left: 8px; }
+/* Keep other header children ahead of CTA */
+.site-header .brand{ order: 1; }
+.site-header .menu-toggle{ order: 2; }
+.site-header .nav{ order: 3; }

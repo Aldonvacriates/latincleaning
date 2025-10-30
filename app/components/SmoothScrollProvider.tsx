@@ -14,10 +14,35 @@ function setScrollVar() {
 
 export default function SmoothScrollProvider() {
   useEffect(() => {
+    // Initial measure
     setScrollVar();
+
+    // Keep header offset in sync with actual header height changes
     const onResize = () => setScrollVar();
     window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+
+    // Observe header size directly (covers font load, safe‑area changes, etc.)
+    const header = document.querySelector<HTMLElement>('.site-header');
+    let ro: ResizeObserver | undefined;
+    try {
+      if (header && 'ResizeObserver' in window) {
+        ro = new ResizeObserver(() => setScrollVar());
+        ro.observe(header);
+      }
+    } catch {}
+
+    // After fonts load, recalc (prevents jump when font swaps in)
+    try {
+      // @ts-ignore experimental typing in some TS versions
+      document.fonts?.ready?.then?.(() => setScrollVar());
+    } catch {}
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
+      try { ro?.disconnect(); } catch {}
+    };
   }, []);
 
   useEffect(() => {
