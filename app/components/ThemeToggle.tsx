@@ -20,7 +20,9 @@ export default function ThemeToggle() {
         applyTheme(stored);
         return;
       }
-    } catch {}
+    } catch {
+      // ignore storage errors
+    }
     // Fallback to system preference
     const prefersDark = typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches;
     const next: Theme = prefersDark ? "dark" : "light";
@@ -30,7 +32,9 @@ export default function ThemeToggle() {
 
   const toggle = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
-    try { localStorage.setItem(STORAGE_KEY, next); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, next); } catch {
+      // ignore storage errors
+    }
     setTheme(next);
     applyTheme(next);
   };
@@ -39,7 +43,7 @@ export default function ThemeToggle() {
 
   return (
     <button
-      className="theme-toggle"
+      className="inline-flex items-center justify-center w-9 h-9 ml-1.5 rounded-full border border-white/15 text-[#e6edf3] hover:brightness-110 order-[7] bg-white/10 backdrop-blur-sm"
       type="button"
       onClick={toggle}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}

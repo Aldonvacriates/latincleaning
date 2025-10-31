@@ -3,7 +3,7 @@ import Services from "./components/Services";
 import Why from "./components/Why";
 import Testimonials from "./components/Testimonials";
 import About from "./components/About";
-import Quote from "./components/Quote";
+import Quote from "./components/QuoteTailwind";
 import BeforeAfter from "./components/BeforeAfter";
 import FindUs from "./components/FindUs";
 

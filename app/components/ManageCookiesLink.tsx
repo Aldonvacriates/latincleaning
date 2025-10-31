@@ -8,7 +8,9 @@ export default function ManageCookiesLink() {
     try {
       localStorage.removeItem(STORAGE_KEY);
       document.cookie = "lc_cookie_consent=; Max-Age=0; Path=/; SameSite=Lax";
-    } catch {}
+    } catch {
+      // ignore storage errors
+    }
     window.dispatchEvent(new Event('lc:manage-cookies'));
   }
 

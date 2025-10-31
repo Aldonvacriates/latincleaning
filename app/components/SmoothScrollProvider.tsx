@@ -30,25 +30,32 @@ export default function SmoothScrollProvider() {
         ro = new ResizeObserver(() => setScrollVar());
         ro.observe(header);
       }
-    } catch {}
+    } catch {
+      // ignore ResizeObserver errors
+    }
 
     // After fonts load, recalc (prevents jump when font swaps in)
     try {
-      // @ts-ignore experimental typing in some TS versions
       document.fonts?.ready?.then?.(() => setScrollVar());
-    } catch {}
+    } catch {
+      // ignore font readiness errors
+    }
 
     return () => {
       window.removeEventListener('resize', onResize);
       window.removeEventListener('orientationchange', onResize);
-      try { ro?.disconnect(); } catch {}
+      try { ro?.disconnect(); } catch {
+        // ignore cleanup errors
+      }
     };
   }, []);
 
   useEffect(() => {
     // Take control of scroll restoration to avoid odd initial offsets
     const prev = history.scrollRestoration;
-    try { history.scrollRestoration = 'manual'; } catch {}
+    try { history.scrollRestoration = 'manual'; } catch {
+      // ignore unsupported
+    }
 
     const smoothTo = (hash: string, behavior: ScrollBehavior = 'smooth') => {
       if (!hash || hash === '#') return;
@@ -100,7 +107,9 @@ export default function SmoothScrollProvider() {
     return () => {
       document.removeEventListener('click', onClick);
       window.removeEventListener('hashchange', onHash);
-      try { history.scrollRestoration = prev as ScrollRestoration; } catch {}
+      try { history.scrollRestoration = prev as ScrollRestoration; } catch {
+        // ignore unsupported
+      }
     };
   }, []);
 
@@ -117,16 +126,9 @@ export default function SmoothScrollProvider() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Scrollspy: highlight nav link for section in view
+  // Scrollspy: highlight nav link for section in view (IO-based for precision)
   useEffect(() => {
-    const ids = [
-      'services',
-      'why',
-      'testimonials',
-      'about',
-      'findus',
-      'quote',
-    ];
+    const ids = ['services', 'why', 'testimonials', 'about', 'findus', 'quote'];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => !!el);
@@ -134,58 +136,64 @@ export default function SmoothScrollProvider() {
     const links = (id: string) =>
       Array.from(document.querySelectorAll<HTMLAnchorElement>(`a[href="#${id}"]`));
 
-    let ticking = false;
-    const getHeaderOffset = () => {
-      const v = parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue('--header-offset') || '0',
-        10
-      );
-      return isNaN(v) ? 0 : v;
-    };
-
     const setActive = (id: string | null) => {
       ids.forEach((x) => links(x).forEach((a) => a.classList.toggle('is-active', x === id)));
     };
 
-    const update = () => {
-      ticking = false;
-      const offset = getHeaderOffset() + 12;
-      let current: string | null = null;
+    const computeHeaderOffset = () => {
+      const v = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-offset') || '0', 10);
+      return isNaN(v) ? 0 : v;
+    };
 
-      for (const el of sections) {
-        const r = el.getBoundingClientRect();
-        if (r.top <= offset && r.bottom > offset) {
-          current = el.id;
-        }
-      }
+    let io: IntersectionObserver | null = null;
+    const ratios = new Map<string, number>();
 
-      // If none matched, pick the first section below the header
-      if (!current) {
-        let minTop = Infinity;
-        for (const el of sections) {
-          const t = el.getBoundingClientRect().top - offset;
-          if (t >= 0 && t < minTop) {
-            minTop = t;
-            current = el.id;
+    const init = () => {
+      const headerOffset = computeHeaderOffset();
+      if (io) io.disconnect();
+      // Focus on the upper 55% of viewport; compensate for sticky header
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const id = (entry.target as HTMLElement).id;
+            ratios.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
           }
+          // Pick the id with the largest ratio
+          let best: string | null = null;
+          let bestR = 0;
+          for (const id of ids) {
+            const r = ratios.get(id) || 0;
+            if (r > bestR + 0.001) { // small hysteresis
+              bestR = r;
+              best = id;
+            }
+          }
+          // Fallback: first section below header when none intersect
+          if (!best) {
+            let minTop = Infinity;
+            for (const el of sections) {
+              const t = el.getBoundingClientRect().top - headerOffset;
+              if (t >= 0 && t < minTop) { minTop = t; best = el.id; }
+            }
+          }
+          setActive(best);
+        },
+        {
+          // Shrink bottom to center-ish so the active state matches what user sees
+          root: null,
+          rootMargin: `-${headerOffset}px 0px -45% 0px`,
+          threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
         }
-      }
-      setActive(current);
+      );
+      sections.forEach((s) => io!.observe(s));
     };
 
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    requestAnimationFrame(update);
+    init();
+    const onResize = () => init();
+    window.addEventListener('resize', onResize);
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
+      window.removeEventListener('resize', onResize);
+      if (io) io.disconnect();
     };
   }, []);
 

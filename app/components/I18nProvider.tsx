@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { dict, translate, type Lang } from "../i18n";
+import { translate, type Lang } from "../i18n";
 
 type Ctx = {
   lang: Lang;
@@ -27,15 +27,21 @@ export default function I18nProvider({ children }: { children: React.ReactNode }
       const saved = (localStorage.getItem(KEY) as Lang | null);
       const initial: Lang = saved ?? (navigator.language?.startsWith("es") ? "es" : "en");
       setLangState(initial);
-    } catch {}
+    } catch {
+      // ignore storage errors
+    }
   }, []);
 
   useEffect(() => {
-    try { localStorage.setItem(KEY, lang); } catch {}
+    try { localStorage.setItem(KEY, lang); } catch {
+      // ignore storage errors
+    }
     try {
       document.documentElement.lang = lang;
       document.documentElement.setAttribute("data-lang", lang);
-    } catch {}
+    } catch {
+      // ignore DOM errors
+    }
   }, [lang]);
 
   const value: Ctx = useMemo(() => ({
@@ -46,4 +52,3 @@ export default function I18nProvider({ children }: { children: React.ReactNode }
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
-

@@ -10,6 +10,7 @@ function hasAccepted() {
     const { choice } = JSON.parse(raw) as { choice?: string };
     return choice === 'accepted';
   } catch {
+    // ignore storage or JSON parse errors
     return false;
   }
 }
@@ -51,11 +52,12 @@ export default function AnalyticsConsent() {
       try {
         const ce = e as CustomEvent;
         if (ce.detail?.choice === 'accepted') enable();
-      } catch {}
+      } catch {
+        // ignore invalid custom events
+      }
     };
     window.addEventListener('lc:consent', onConsent as EventListener);
     return () => window.removeEventListener('lc:consent', onConsent as EventListener);
   }, []);
   return null;
 }
-

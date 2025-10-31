@@ -80,15 +80,48 @@ export default function Header() {
 
   return (
     <>
-      <header className="site-header">
-        <a href="#top" className="brand" aria-label="Latin Cleaning">
-          <Image src="/images/latincleanf.jpg" alt="Latin Cleaning logo" className="brand__logo" width={40} height={40} priority />
-          <span className="brand__text">Latin Cleaning</span>
+      <header
+        className={[
+          "site-header",
+          "top-0 z-[999] flex items-center justify-between gap-6 w-full max-w-[100vw]",
+          "px-4 lg:px-6",
+          "min-h-[var(--header-height)]",
+          // Theme-aware glass navbar
+          "backdrop-blur-md transition-colors duration-200",
+          // Subtle base shadow in light; none in dark (handled on scroll)
+          "shadow-[0_2px_10px_rgba(2,6,23,0.08)] dark:shadow-none",
+          // Light uses glass panel color; Dark starts solid black until scrolled
+          "bg-[color:var(--hero-card-bg)] text-[color:var(--navy)] border border-[color:var(--hero-card-border)]",
+          "dark:bg-[#0b1220] dark:text-[#e6edf3] dark:border-transparent",
+          // On scroll, slightly clearer + more blur per theme
+          "[&.is-scrolled]:backdrop-blur-[12px]",
+          "[&.is-scrolled]:bg-[color:var(--hero-card-bg)]",
+          "[&.is-scrolled]:shadow-[0_2px_12px_rgba(2,6,23,0.12)] dark:[&.is-scrolled]:shadow-[0_2px_12px_rgba(2,6,23,0.25)]",
+        ].join(' ')}
+      >
+        <a
+          href="#top"
+          className="brand flex items-center gap-3 no-underline text-[color:var(--navy)] dark:text-[#e6edf3] font-bold min-w-0"
+          aria-label="Latin Cleaning"
+        >
+          <Image
+            src="/images/latincleanf.jpg"
+            alt="Latin Cleaning logo"
+            className="brand__logo w-10 h-10 rounded-[10px] object-cover shadow"
+            width={40}
+            height={40}
+            priority
+          />
+          <span className="brand__text hidden min-[520px]:inline">Latin Cleaning</span>
         </a>
 
         <button
           ref={btnRef}
-          className="menu-toggle"
+          className={[
+            "menu-toggle",
+            // Tailwind
+            "block xl:hidden text-[color:var(--navy)] dark:text-[#e6edf3] w-10 h-10 shrink-0",
+          ].join(' ')}
           aria-controls="mobile-nav"
           aria-expanded={open}
           aria-label={open ? "Close navigation menu" : "Open navigation menu"}
@@ -114,16 +147,18 @@ export default function Header() {
 
         <ThemeToggle />
         <LanguageToggle />
+        {/* CTA visible on all screens */}
+        <a href="#quote" className="header-cta btn btn--pink">Book Now</a>
 
-        <nav className="nav">
-          <a href="#services">{t('nav.services')}</a>
-          <a href="#why">{t('nav.why')}</a>
-          <a href="#testimonials">{t('nav.testimonials')}</a>
-          <a href="#about">{t('nav.about')}</a>
-          <a href="#findus">{t('nav.findus')}</a>
-          <a href="#quote">{t('nav.quote')}</a>
-          <a href="https://sites.google.com/view/latincleaning/home">Google</a>
-          <a href="https://www.instagram.com/latinclean/" target="_blank" rel="noopener" aria-label="Instagram (opens in new tab)">
+        <nav className="nav hidden xl:flex flex-1 justify-end gap-4 min-w-0">
+          <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] font-semibold opacity-85 text-[0.95rem] lg:text-[1rem] py-3 px-2 hover:opacity-100 hover:text-[color:var(--accent1)] [&.is-active]:text-[color:var(--accent1)] transition-colors" href="#services">{t('nav.services')}</a>
+          <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] font-semibold opacity-85 text-[0.95rem] lg:text-[1rem] py-3 px-2 hover:opacity-100 hover:text-[color:var(--accent1)] [&.is-active]:text-[color:var(--accent1)] transition-colors" href="#why">{t('nav.why')}</a>
+          <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] font-semibold opacity-85 text-[0.95rem] lg:text-[1rem] py-3 px-2 hover:opacity-100 hover:text-[color:var(--accent1)] [&.is-active]:text-[color:var(--accent1)] transition-colors" href="#testimonials">{t('nav.testimonials')}</a>
+          <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] font-semibold opacity-85 text-[0.95rem] lg:text-[1rem] py-3 px-2 hover:opacity-100 hover:text-[color:var(--accent1)] [&.is-active]:text-[color:var(--accent1)] transition-colors" href="#about">{t('nav.about')}</a>
+          <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] font-semibold opacity-85 text-[0.95rem] lg:text-[1rem] py-3 px-2 hover:opacity-100 hover:text-[color:var(--accent1)] [&.is-active]:text-[color:var(--accent1)] transition-colors" href="#findus">{t('nav.findus')}</a>
+          <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] font-semibold opacity-85 text-[0.95rem] lg:text-[1rem] py-3 px-2 hover:opacity-100 hover:text-[color:var(--accent1)] [&.is-active]:text-[color:var(--accent1)] transition-colors" href="#quote">{t('nav.quote')}</a>
+          <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] font-semibold opacity-85 text-[0.95rem] lg:text-[1rem] py-3 px-2 hover:opacity-100 hover:text-[color:var(--accent1)] transition-colors" href="https://sites.google.com/view/latincleaning/home">Google</a>
+          <a className="no-underline inline-flex items-center text-[color:var(--navy)] dark:text-[#e6edf3] font-semibold opacity-85 text-[0.95rem] lg:text-[1rem] py-3 px-2 hover:opacity-100 hover:text-[color:var(--accent1)] transition-colors" href="https://www.instagram.com/latinclean/" target="_blank" rel="noopener" aria-label="Instagram (opens in new tab)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -136,7 +171,7 @@ export default function Header() {
               strokeLinejoin="round"
               aria-hidden="true"
               focusable="false"
-              style={{ verticalAlign: "middle", marginRight: 8 }}
+              className="mr-2"
             >
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
               <circle cx="12" cy="12" r="3"></circle>
@@ -146,12 +181,18 @@ export default function Header() {
           </a>
         </nav>
 
-        <a className="btn btn--cta header-cta" href="#quote">{t('cta.book')}</a>
+        {/* Mobile/Tablet CTA is rendered earlier (xl:hidden). Desktop CTA is inside the nav. */}
       </header>
 
       {/* Backdrop behind the mobile nav; clicking closes the menu */}
       <div
-        className="mobile-backdrop"
+        className={[
+          "mobile-backdrop",
+          // Tailwind
+          "fixed inset-0 z-30 bg-[rgba(15,23,42,0.45)] backdrop-blur-sm transition-opacity duration-300",
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+          "dark:bg-[rgba(2,6,23,0.6)]",
+        ].join(' ')}
         aria-hidden="true"
         data-open={open}
         onClick={() => setOpenSafe(false)}
@@ -160,7 +201,17 @@ export default function Header() {
       <nav
         ref={navRef}
         id="mobile-nav"
-        className="mobile-nav"
+        className={[
+          "mobile-nav",
+          // Tailwind layout and effects
+          "fixed inset-0 h-[100dvh] z-40 flex flex-col items-center justify-center gap-6 md:gap-8",
+          "overflow-y-auto overflow-x-hidden overscroll-contain touch-auto",
+          "pt-[calc(env(safe-area-inset-top)+8px)] pb-[env(safe-area-inset-bottom)]",
+          "bg-white/95 backdrop-blur-lg dark:bg-[rgba(10,15,25,0.95)]",
+          // Transition and state
+          "transition-[transform,opacity] duration-[380ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
+          open ? "translate-y-[var(--nav-shift,0px)] opacity-100" : "-translate-y-full opacity-0",
+        ].join(' ')}
         aria-hidden={!open}
         aria-label="Mobile navigation"
         data-open={open}
@@ -195,7 +246,9 @@ export default function Header() {
           }
           if (orientRef.current === 'y') {
             // vertical drag to close (swipe up)
-            try { e.preventDefault(); } catch {}
+            try { e.preventDefault(); } catch {
+              // ignore
+            }
             const deltaY = Math.min(0, dy); // only allow dragging upward
             const min = -Math.floor(window.innerHeight * 0.85);
             const shift = Math.max(deltaY, min);
@@ -254,14 +307,14 @@ export default function Header() {
           orientRef.current = null;
         }}
       >
-        <a href="#services">{t('nav.services')}</a>
-        <a href="#why">{t('nav.why')}</a>
-        <a href="#testimonials">{t('nav.testimonials')}</a>
-        <a href="#about">{t('nav.about')}</a>
-        <a href="#findus">{t('nav.findus')}</a>
-        <a href="#quote">{t('nav.quote')}</a>
-        <a href="https://sites.google.com/view/latincleaning/home">Google</a>
-        <a href="https://www.instagram.com/latinclean/" target="_blank" rel="noopener" aria-label="Instagram (opens in new tab)">
+        <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] text-xl md:text-[1.25rem] lg:text-[1.5rem] font-semibold p-3 md:p-4 hover:text-[color:var(--accent1)] transition" href="#services">{t('nav.services')}</a>
+        <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] text-xl md:text-[1.25rem] lg:text-[1.5rem] font-semibold p-3 md:p-4 hover:text-[color:var(--accent1)] transition" href="#why">{t('nav.why')}</a>
+        <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] text-xl md:text-[1.25rem] lg:text-[1.5rem] font-semibold p-3 md:p-4 hover:text-[color:var(--accent1)] transition" href="#testimonials">{t('nav.testimonials')}</a>
+        <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] text-xl md:text-[1.25rem] lg:text-[1.5rem] font-semibold p-3 md:p-4 hover:text-[color:var(--accent1)] transition" href="#about">{t('nav.about')}</a>
+        <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] text-xl md:text-[1.25rem] lg:text-[1.5rem] font-semibold p-3 md:p-4 hover:text-[color:var(--accent1)] transition" href="#findus">{t('nav.findus')}</a>
+        <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] text-xl md:text-[1.25rem] lg:text-[1.5rem] font-semibold p-3 md:p-4 hover:text-[color:var(--accent1)] transition" href="#quote">{t('nav.quote')}</a>
+        <a className="no-underline text-[color:var(--navy)] dark:text-[#e6edf3] text-xl md:text-[1.25rem] lg:text-[1.5rem] font-semibold p-3 md:p-4 hover:text-[color:var(--accent1)] transition" href="https://sites.google.com/view/latincleaning/home">Google</a>
+        <a className="no-underline inline-flex items-center text-[color:var(--navy)] dark:text-[#e6edf3] text-xl md:text-[1.25rem] lg:text-[1.5rem] font-semibold p-3 md:p-4 hover:text-[color:var(--accent1)] transition" href="https://www.instagram.com/latinclean/" target="_blank" rel="noopener" aria-label="Instagram (opens in new tab)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -274,7 +327,7 @@ export default function Header() {
             strokeLinejoin="round"
             aria-hidden="true"
             focusable="false"
-            style={{ verticalAlign: "middle", marginRight: 8 }}
+            className="mr-2"
           >
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
             <circle cx="12" cy="12" r="3"></circle>
@@ -282,6 +335,8 @@ export default function Header() {
           </svg>
           {t('nav.instagram')}
         </a>
+
+        {/* CTA kept outside nav to avoid duplicates */}
 
         {/* (toggle removed from mobile sheet as requested) */}
       </nav>
